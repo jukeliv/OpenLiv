@@ -1,21 +1,10 @@
-#include "OpenLiv\Core.h"
-
-using namespace OpenLiv;
-
-#define ASSERT(x) if (!(x)) __debugbreak();
-#define glCall(x) while (glGetError());\
-    x;\
-    ASSERT(glCheckError(#x, __FILE__, __LINE__))
-
-static bool glCheckError(const char* func, const char* file, int line)
-{
-    while (GLenum err = glGetError())
-    {
-        fprintf(stderr, "[OpenGL Error] ( %u ) %s || %s: %i\n", err, func, file, line);
-        return false;
-    }
-    return true;
-}
+#include "Core.h"
+#include "Renderer.h"
+#include "VertexBuffer.h"
+#include "IndexBuffer.h"
+#include "Renderer.h"
+#include "VertexBuffer.h"
+#include "Shader.h"
 
 int main(void)
 {
@@ -24,6 +13,10 @@ int main(void)
         return -1;
 
     glewInit();
+
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
     /* Create a windowed mode window and its OpenGL context */
     auto* window = glfwCreateWindow(640, 640, "Hello World", NULL, NULL);
@@ -35,6 +28,8 @@ int main(void)
 
     /* Make the window's context current */
     glfwMakeContextCurrent(window);
+    //Enable V-Sync
+    glfwSwapInterval(1);
 
     GLenum err = glewInit();
     if (GLEW_OK != err)
@@ -45,55 +40,71 @@ int main(void)
     }
     fprintf(stdout, "Status: Using GLEW %s\n", glewGetString(GLEW_VERSION));
 
-    float vertexData[] = {
-    /*    Positions      Indices    */
-        -0.5f, -0.5f,      //0
-         0.5f, -0.5f,      //1
-         0.5f,  0.5f,      //2
-        -0.5f,  0.5f       //3
-    };
-
-    unsigned int indices[] = {
-        0, 1, 2,
-        2, 3, 0
-    };
-
-    unsigned int buffer;
-    glCall(glGenBuffers(1, &buffer));
-    glCall(glBindBuffer(GL_ARRAY_BUFFER, buffer));
-    glCall(glBufferData(GL_ARRAY_BUFFER, 6*2 * sizeof(float), vertexData, GL_STATIC_DRAW));
-
-    glCall(glEnableVertexAttribArray(0));
-    glCall(glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 2, 0));
-
-    unsigned int ibo;
-    glCall(glGenBuffers(1, &ibo));
-    glCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo));
-    glCall(glBufferData(GL_ELEMENT_ARRAY_BUFFER, 6 * sizeof(unsigned int), indices, GL_STATIC_DRAW));
-
-    ShadersUtil shaderUtil;
-    unsigned int shader = shaderUtil.CreateShader("Main/");
-
-    glCall(glUseProgram(shader));
-
-    glUniform3f(shaderUtil.UniformLocation(shader, "uColor"), 0.35f, 0.1f, 0.85f);
-
-    /* Loop until the user closes the window */
-    while (!glfwWindowShouldClose(window))
     {
-        /* Render here */
-        glClear(GL_COLOR_BUFFER_BIT);
+        float vertexData[] = {
+            /*    Positions    */
+                -0.5f, -0.5f,
+                 0.5f, -0.5f,
+                 0.5f,  0.5f,
+                -0.5f,  0.5f
+        };
 
-        glCall(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, NULL));
+        unsigned int indices[] = {
+            0, 1, 2,
+            2, 3, 0
+        };
 
-        /* Swap front and back buffers */
-        glfwSwapBuffers(window);
+        unsigned int vao;
+        glCall(glGenVertexArrays(1, &vao));
+        glCall(glBindVertexArray(vao));
 
-        /* Poll for and process events */
-        glfwPollEvents();
+        VertexBuffer vb(vertexData, 4 * 2 * sizeof(float));
+
+        glCall(glEnableVertexAttribArray(0));
+        glCall(glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 2, 0));
+
+        IndexBuffer ib(indices, 6);
+
+        Shader mainShader("Main");
+        
+        glCall(glBindVertexArray(0));
+        glCall(glUseProgram(0));
+        vb.UnBind();
+        ib.UnBind();
+
+        float v = 0;
+        float increment = 0.05f;
+        /* Loop until the user closes the window */
+        while (!glfwWindowShouldClose(window))
+        {
+            /* Render here */
+            glClear(GL_COLOR_BUFFER_BIT);
+
+            mainShader.Bind();
+            mainShader.setVec3("uColor", Vec3(v,v,v));
+
+            glCall(glBindVertexArray(vao));
+            ib.Bind();
+
+            glCall(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, NULL));
+
+            if (v > 1.0f)
+                increment = -0.05f;
+            else if (v < 0.0f)
+                increment = 0.05f;
+
+            v += increment;
+
+            /* Swap front and back buffers */
+            glfwSwapBuffers(window);
+
+            /* Poll for and process events */
+            glfwPollEvents();
+        }
+
+        mainShader.~Shader();
     }
 
-    glDeleteProgram(shader);
     glfwTerminate();
     return 0;
 }
