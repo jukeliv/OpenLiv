@@ -145,7 +145,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\Main.cpp" />
+    <ClCompile Include="src\Application.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\shaders\main\vertex.shader" />
+    <None Include="res\shaders\main\fragment.shader" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\OpenLiv\Core.h" />
+    <ClInclude Include="src\OpenLiv\ShadersUtil.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
