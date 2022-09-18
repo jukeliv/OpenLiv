@@ -92,7 +92,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>GLEW_STATIC;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)include\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)include\;$(SolutionDir)src\Rendering\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -109,7 +109,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>GLEW_STATIC;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)include\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)include\;$(SolutionDir)src\Rendering\</AdditionalIncludeDirectories>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
@@ -154,6 +154,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="include\GLErrorManager.cpp" />
+    <ClCompile Include="include\stb\stb_image.cpp" />
     <ClCompile Include="src\Rendering\Renderer.cpp" />
     <ClCompile Include="src\Application.cpp" />
     <ClCompile Include="src\Rendering\Buffers\IndexBuffer.cpp" />
@@ -161,20 +162,24 @@
     <ClCompile Include="src\Rendering\Buffers\VertexBuffer.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="src\Rendering\Shaders\files\Main\vertex.shader" />
-    <None Include="src\Rendering\Shaders\files\Main\fragment.shader" />
+    <None Include="src\Rendering\shaders\Main\vertex.shader" />
+    <None Include="src\Rendering\shaders\Main\fragment.shader" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\GLErrorManager.h" />
     <ClInclude Include="src\Rendering\Buffers\IndexBuffer.h" />
     <ClInclude Include="src\Rendering\Renderer.h" />
-    <ClInclude Include="src\Rendering\Shaders\Shader.h" />
+    <ClInclude Include="src\Rendering\Utils\Shader.h" />
     <ClInclude Include="src\Rendering\Buffers\VertexBuffer.h" />
     <ClInclude Include="src\Rendering\Buffers\VertexArray.h" />
     <ClInclude Include="src\Rendering\Buffers\VertexBufferLayout.h" />
+    <ClInclude Include="src\Rendering\Utils\Texture.h" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="src\Rendering\Shaders\files\PUT YOUR SHADERS HERE.txt" />
+    <Text Include="src\Rendering\shaders\PUT YOUR SHADERS HERE.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\textures\example_0.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -15,14 +15,15 @@ void VertexArray::AddBuffer(const VertexBuffer& vb, const VertexBufferLayout& la
 	vb.Bind();
 	const auto& elements = layout.GetElements();
 	unsigned int offset = 0;
+
 	for (unsigned int i = 0; i < elements.size(); i++)
 	{
 		const auto& element = elements[i];
 
 		glCall(glEnableVertexAttribArray(i));
 		glCall(glVertexAttribPointer(i, element.count, element.type,
-			element.normalized, layout.GetStride() * 2, (const void*)offset));
-		offset += element.count * VertexLayoutElement::GetSizeOfType(element.type);
+			element.normalized, layout.GetStride(), (const void*)offset));
+		offset += element.count * LayoutElement::GetSizeOfType(element.type);
 	}
 }
 

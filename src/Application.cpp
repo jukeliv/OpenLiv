@@ -1,12 +1,14 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
+#include <stb/stb_image.h>
 #include "GLErrorManager.h"
 
-#include "Rendering/Utils/Shader.h"
 #include "Rendering/Buffers/VertexBuffer.h"
 #include "Rendering/Buffers/IndexBuffer.h"
 #include "Rendering/Buffers/VertexArray.h"
+#include "Rendering/Utils/Shader.h"
 #include "Rendering/Renderer.h"
+#include "Rendering/Utils/Texture.h"
 
 #include <iostream>
 
@@ -18,12 +20,8 @@ int main(void)
 
     glewInit();
 
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-
     /* Create a windowed mode window and its OpenGL context */
-    auto* window = glfwCreateWindow(640, 640, "Hello World", nullptr, nullptr);
+    auto* window = glfwCreateWindow(640, 480, "Hello World", nullptr, nullptr);
     if (!window)
     {
         glfwTerminate();
@@ -45,11 +43,11 @@ int main(void)
 
     {
         const float vertexData[] = {
-            /*    Positions    */
-                -0.5f, -0.5f,
-                 0.5f, -0.5f,
-                 0.5f,  0.5f,
-                -0.5f,  0.5f
+            /*    Positions    Texture Coords */
+                -0.5f, -0.5f,   0.0f, 0.0f,     //0
+                 0.5f, -0.5f,   1.0f, 0.0f,     //1
+                 0.5f,  0.5f,   1.0f, 1.0f,     //2
+                -0.5f,  0.5f,   0.0f, 1.0f      //3
         };
 
         const unsigned int indices[] = {
@@ -57,36 +55,39 @@ int main(void)
             2, 3, 0
         };
 
+        glCall(glEnable(GL_BLEND));
+        glCall(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
+
         VertexArray va;
-        VertexBuffer vb(vertexData, 4 * 2 * sizeof(float));
+        VertexBuffer vb(vertexData, 4 * 4 * sizeof(float));
         
         VertexBufferLayout layout;
-        layout.PushData<float>(3);
+        layout.PushData<float>(2);
+        layout.PushData<float>(2);
         va.AddBuffer(vb, layout);
-
-        glCall(glEnableVertexAttribArray(0));
-        glCall(glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 2, 0));
 
         IndexBuffer ib(indices, 6, GL_UNSIGNED_INT);
 
         Shader mShader("Main");
-        
+
+        Texture mTex("res/textures/example_0.png");
+        mTex.Bind();
+        mShader.setUniform<int>("uTexture", 0);
+
         va.UnBind();
-        mShader.UnBind();
         vb.UnBind();
         ib.UnBind();
+        mShader.UnBind();
 
         Renderer renderer;
 
         float v = 0;
-        float increment = 0.05f;
+        float increment = 0.01f;
         /* Loop until the user closes the window */
         while (!glfwWindowShouldClose(window))
         {
             /* Render here */
             renderer.Clear();
-
-            mShader.setUniform<Vec3>("uColor", Vec3(v,v,v));
 
             renderer.RenderScene(va, ib, mShader);
 

@@ -33,13 +33,16 @@
     <ClCompile Include="src\Rendering\Buffers\IndexBuffer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="include\stb\stb_image.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="src\Rendering\Shaders\files\Main\vertex.shader" />
-    <None Include="src\Rendering\Shaders\files\Main\fragment.shader" />
+    <None Include="src\Rendering\shaders\Main\vertex.shader" />
+    <None Include="src\Rendering\shaders\Main\fragment.shader" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Rendering\Shaders\Shader.h">
+    <ClInclude Include="src\Rendering\Utils\Shader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Rendering\Renderer.h">
@@ -60,8 +63,16 @@
     <ClInclude Include="include\GLErrorManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Rendering\Utils\Texture.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="src\Rendering\Shaders\files\PUT YOUR SHADERS HERE.txt" />
+    <Text Include="src\Rendering\shaders\PUT YOUR SHADERS HERE.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\textures\example_0.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

@@ -7,7 +7,7 @@ void Renderer::RenderScene(const VertexArray& va, const IndexBuffer& ib, const S
     va.Bind();
     ib.Bind();
 
-    glCall(glDrawElements(GL_TRIANGLES, ib.GetCount(), ib.GetType(), nullptr));
+    glCall(glDrawElements(GL_TRIANGLES, ib.GetCount(), ib.GetType(), NULL));
 }
 
 void Renderer::Clear() const

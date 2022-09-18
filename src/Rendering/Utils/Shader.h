@@ -8,7 +8,7 @@
 #include <string>
 #include <sstream>
 #include <vector>
-//#include <unordered_map>
+#include <unordered_map>
 
 struct Vec3
 {
@@ -78,7 +78,7 @@ public:
 	template<>
 	void setUniform<int>(const std::string& uniform, const int& value)
 	{
-		glUniform1ui(getUniformLocation(uniform), value);
+		glUniform1i(getUniformLocation(uniform), value);
 	}
 
 	template<>
@@ -95,17 +95,17 @@ public:
 
 private:
 	unsigned int m_ProgramID;
-	//Implement this again when you know what cause the error
-	//std::unordered_map<std::string, unsigned int> m_UniformLocationCage;
+	//It was OpenGL 3.3 :)
+	std::unordered_map<std::string, int> m_UniformLocationCage;
 
 	static std::string getShadersPath() { return "src/Rendering/shaders/"; }
 
 	/*thanks a lot to `HomelikeBrick42` from TheChernos Discord
 	* for helping me with the error i was having with this function */
-	unsigned int getUniformLocation(const std::string& uniform)
+	int getUniformLocation(const std::string& uniform)
 	{
-		/*if (m_UniformLocationCage.find(uniform) != m_UniformLocationCage.end())
-			return m_UniformLocationCage[uniform];*/
+		if (m_UniformLocationCage.find(uniform) != m_UniformLocationCage.end())
+			return m_UniformLocationCage.at(uniform);
 
 		int location = glGetUniformLocation(m_ProgramID, uniform.c_str());
 		if (location == -1) {
@@ -113,7 +113,7 @@ private:
 			return NULL;
 		}
 
-		//m_UniformLocationCage[uniform] = location;
+		m_UniformLocationCage[uniform] = location;
 		return location;
 	}
 
