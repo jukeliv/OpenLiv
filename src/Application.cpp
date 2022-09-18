@@ -82,7 +82,7 @@ int main(void)
             glClear(GL_COLOR_BUFFER_BIT);
 
             mainShader.Bind();
-            mainShader.setVec3("uColor", Vec3(v,v,v));
+            mainShader.setUniform<Vec3>("uColor", Vec3(v,v,v));
 
             va.Bind();
             ib.Bind();
@@ -102,8 +102,6 @@ int main(void)
             /* Poll for and process events */
             glfwPollEvents();
         }
-
-        mainShader.~Shader();
     }
 
     glfwTerminate();

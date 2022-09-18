@@ -6,6 +6,7 @@
 #include <fstream>
 #include <string>
 #include <sstream>
+#include <unordered_map>
 
 struct Vec3
 {
@@ -30,9 +31,9 @@ public:
 		unsigned int vs = CompileShader(GL_VERTEX_SHADER, shaderFolder);
 		unsigned int fs = CompileShader(GL_FRAGMENT_SHADER, shaderFolder);
 
-		glAttachShader(mProgramID, vs);
-		glAttachShader(mProgramID, fs);
-		glLinkProgram(mProgramID);
+		glCall(glAttachShader(mProgramID, vs));
+		glCall(glAttachShader(mProgramID, fs));
+		glCall(glLinkProgram(mProgramID));
 
 		int succes;
 		glGetShaderiv(mProgramID, GL_LINK_STATUS, &succes);
@@ -49,12 +50,11 @@ public:
 			free(message);
 		}
 
-		glDeleteShader(vs);
-		glDeleteShader(fs);
+		glDeleteShaders({ vs, fs });
 	}
 	~Shader()
 	{
-		glDeleteProgram(mProgramID);
+		glCall(glDeleteProgram(mProgramID));
 	}
 
 	void Bind() const
@@ -66,22 +66,46 @@ public:
 		glCall(glUseProgram(0));
 	}
 
-	inline void setFloat(const char* fUniform, float v) { glUniform1f(getUniformLocation(fUniform), v); }
+	template<typename T>
+	void setUniform(const std::string& uniform, const T& value)
+	{
+		static_assert(false);
+	}
 
-	inline void setVec3(const char* fUniform, const Vec3& v) { glUniform3f(getUniformLocation(fUniform), v.x, v.y, v.z); }
+	template<>
+	void setUniform<float>(const std::string& uniform, const float& value)
+	{
+		glCall(glUniform1f(getUniformLocation(uniform), value));
+	}
+
+	template<>
+	void setUniform<Vec3>(const std::string& uniform, const Vec3& value)
+	{
+		glCall(glUniform3f(getUniformLocation(uniform), value.x, value.y, value.z));
+	}
+
 private:
 	unsigned int mProgramID;
+	//Implement this again when you know what cause the error
+	//std::unordered_map<std::string, unsigned int> m_UniformLocationCage;
+
 	static std::string getShadersPath() { return "res/shaders/"; }
 
-	unsigned int getUniformLocation(const char* uniform) const
+	/*thanks a lot to `HomelikeBrick42` from TheChernos Discord
+	* for helping me with the error i was having with this function */
+	unsigned int getUniformLocation(const std::string& uniform)
 	{
-		int location = glGetUniformLocation(mProgramID, uniform);
-		if (location != -1)
-			return location;
-		else {
-			fprintf(stderr, "ERROR: invalid location");
+		/*if (m_UniformLocationCage.find(uniform) != m_UniformLocationCage.end())
+			return m_UniformLocationCage[uniform];*/
+
+		int location = glGetUniformLocation(mProgramID, uniform.c_str());
+		if (location == -1) {
+			fprintf(stderr, "ERROR: %s does not exist\n", uniform.c_str());
 			return NULL;
 		}
+
+		//m_UniformLocationCage[uniform] = location;
+		return location;
 	}
 
 	static unsigned int CompileShader(unsigned int t, const std::string& folder)
@@ -92,10 +116,13 @@ private:
 
 		std::ifstream stream(getShadersPath() + folder + "/" + t_str + ".shader");
 		std::stringstream buffer;
-		if (stream)
-			buffer << stream.rdbuf();
-		else
+
+		if (!stream) {
 			fprintf(stderr, "ERROR: No file in path: %s", getShadersPath() + folder + t_str + ".shader");
+			return NULL;
+		}
+
+		buffer << stream.rdbuf();
 
 		//Hardcode this shit cuz it hives errors B)
 		std::string src = "#version 330 core\n";
@@ -105,7 +132,7 @@ private:
 
 		glShaderSource(ID, 1, &src_c, NULL);
 
-		glCompileShader(ID);
+		glCall(glCompileShader(ID));
 			
 		int succes;
 		glGetShaderiv(ID, GL_COMPILE_STATUS, &succes);
@@ -124,5 +151,15 @@ private:
 		}
 
 		return ID;
+	}
+
+	static void glDeleteShaders(std::vector<unsigned int> shaders)
+	{
+		for (int i = 0; i < shaders.size(); i++)
+		{
+			unsigned int shader = shaders[i];
+
+			glCall(glDeleteShader(shader));
+		}
 	}
 };

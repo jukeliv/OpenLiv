@@ -158,7 +158,6 @@
     <ClCompile Include="src\Application.cpp" />
     <ClCompile Include="src\VertexBuffer.cpp" />
     <ClCompile Include="src\VertexArray.cpp" />
-    <ClCompile Include="src\VertexBufferLayout.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="res\shaders\main\vertex.shader" />
