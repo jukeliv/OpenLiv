@@ -61,7 +61,10 @@ public:
 	{
 		glCall(glUseProgram(mProgramID));
 	}
-	static void UnBind();
+	void UnBind() const
+	{
+		glCall(glUseProgram(0));
+	}
 
 	inline void setFloat(const char* fUniform, float v) { glUniform1f(getUniformLocation(fUniform), v); }
 

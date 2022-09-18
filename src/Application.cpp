@@ -5,6 +5,7 @@
 #include "Renderer.h"
 #include "VertexBuffer.h"
 #include "Shader.h"
+#include "VertexArray.h"
 
 int main(void)
 {
@@ -19,7 +20,7 @@ int main(void)
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
     /* Create a windowed mode window and its OpenGL context */
-    auto* window = glfwCreateWindow(640, 640, "Hello World", NULL, NULL);
+    auto* window = glfwCreateWindow(640, 640, "Hello World", nullptr, nullptr);
     if (!window)
     {
         glfwTerminate();
@@ -28,8 +29,7 @@ int main(void)
 
     /* Make the window's context current */
     glfwMakeContextCurrent(window);
-    //Enable V-Sync
-    glfwSwapInterval(1);
+    glfwSwapInterval(1);//Enable V-Sync
 
     GLenum err = glewInit();
     if (GLEW_OK != err)
@@ -41,7 +41,7 @@ int main(void)
     fprintf(stdout, "Status: Using GLEW %s\n", glewGetString(GLEW_VERSION));
 
     {
-        float vertexData[] = {
+        const float vertexData[] = {
             /*    Positions    */
                 -0.5f, -0.5f,
                  0.5f, -0.5f,
@@ -49,16 +49,17 @@ int main(void)
                 -0.5f,  0.5f
         };
 
-        unsigned int indices[] = {
+        const unsigned int indices[] = {
             0, 1, 2,
             2, 3, 0
         };
 
-        unsigned int vao;
-        glCall(glGenVertexArrays(1, &vao));
-        glCall(glBindVertexArray(vao));
-
+        VertexArray va;
         VertexBuffer vb(vertexData, 4 * 2 * sizeof(float));
+        
+        VertexBufferLayout layout;
+        layout.PushData<float>(3);
+        va.AddBuffer(vb, layout);
 
         glCall(glEnableVertexAttribArray(0));
         glCall(glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 2, 0));
@@ -67,8 +68,8 @@ int main(void)
 
         Shader mainShader("Main");
         
-        glCall(glBindVertexArray(0));
-        glCall(glUseProgram(0));
+        va.UnBind();
+        mainShader.UnBind();
         vb.UnBind();
         ib.UnBind();
 
@@ -83,10 +84,10 @@ int main(void)
             mainShader.Bind();
             mainShader.setVec3("uColor", Vec3(v,v,v));
 
-            glCall(glBindVertexArray(vao));
+            va.Bind();
             ib.Bind();
 
-            glCall(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, NULL));
+            glCall(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr));
 
             if (v > 1.0f)
                 increment = -0.05f;
