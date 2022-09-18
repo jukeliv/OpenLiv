@@ -1,11 +1,14 @@
-#include "Core.h"
-#include "Renderer.h"
-#include "VertexBuffer.h"
-#include "IndexBuffer.h"
-#include "Renderer.h"
-#include "VertexBuffer.h"
-#include "Shader.h"
-#include "VertexArray.h"
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
+#include "GLErrorManager.h"
+
+#include "Rendering/Utils/Shader.h"
+#include "Rendering/Buffers/VertexBuffer.h"
+#include "Rendering/Buffers/IndexBuffer.h"
+#include "Rendering/Buffers/VertexArray.h"
+#include "Rendering/Renderer.h"
+
+#include <iostream>
 
 int main(void)
 {
@@ -64,14 +67,16 @@ int main(void)
         glCall(glEnableVertexAttribArray(0));
         glCall(glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 2, 0));
 
-        IndexBuffer ib(indices, 6);
+        IndexBuffer ib(indices, 6, GL_UNSIGNED_INT);
 
-        Shader mainShader("Main");
+        Shader mShader("Main");
         
         va.UnBind();
-        mainShader.UnBind();
+        mShader.UnBind();
         vb.UnBind();
         ib.UnBind();
+
+        Renderer renderer;
 
         float v = 0;
         float increment = 0.05f;
@@ -79,15 +84,11 @@ int main(void)
         while (!glfwWindowShouldClose(window))
         {
             /* Render here */
-            glClear(GL_COLOR_BUFFER_BIT);
+            renderer.Clear();
 
-            mainShader.Bind();
-            mainShader.setUniform<Vec3>("uColor", Vec3(v,v,v));
+            mShader.setUniform<Vec3>("uColor", Vec3(v,v,v));
 
-            va.Bind();
-            ib.Bind();
-
-            glCall(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr));
+            renderer.RenderScene(va, ib, mShader);
 
             if (v > 1.0f)
                 increment = -0.05f;
