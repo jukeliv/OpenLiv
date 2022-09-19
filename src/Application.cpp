@@ -1,5 +1,7 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 #include <stb_image/stb_image.h>
 #include "GLErrorManager.h"
 
@@ -60,17 +62,26 @@ int main(void)
 
         VertexArray va;
         VertexBuffer vb(vertexData, 4 * 4 * sizeof(float));
-        
+
         VertexBufferLayout layout;
         layout.PushData<float>(2);
         layout.PushData<float>(2);
         va.AddBuffer(vb, layout);
 
         IndexBuffer ib(indices, 6, GL_UNSIGNED_INT);
-
         Shader mShader("Main");
+        mShader.Bind();
+        //fixing texture streching
+        //projection * view * model = final vertex position
+        glm::mat4 proj = glm::ortho(-2.0f, 2.0f, -1.5f, 1.5f, -1.0f, 1.0f);//Set aspect ratio to 4:3
+        glm::mat4 view = glm::translate(glm::mat4(1.0f),glm::vec3(-1.0f, 0.0f, 0.0f));//Camera position
+        glm::mat4 model = glm::translate(glm::mat4(1.0f), glm::vec3(0.5f, 0.65f, 0.0f));//Object position
 
-        Texture mTex("res/textures/example_0.png");
+        glm::mat4 mvp = proj * view * model;
+
+        mShader.setUniform<glm::mat4>("uMVP", mvp);
+
+        Texture mTex("res/textures/ricardo.png");
         mTex.Bind();
         mShader.setUniform<int>("uTexture", 0);
 

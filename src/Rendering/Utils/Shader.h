@@ -1,6 +1,7 @@
 #pragma once
 
 #include <GL/glew.h>
+#include <glm/glm.hpp>
 #include "GLErrorManager.h"
 
 #include <iostream>
@@ -88,9 +89,9 @@ public:
 	}
 
 	template<>
-	void setUniform<Vec3>(const std::string& uniform, const Vec3& value)
+	void setUniform<glm::mat4>(const std::string& uniform, const glm::mat4& value)
 	{
-		glUniform3f(getUniformLocation(uniform), value.x, value.y, value.z);
+		glUniformMatrix4fv(getUniformLocation(uniform), 1, GL_FALSE, &value[0][0]);
 	}
 
 private:
