@@ -2,6 +2,7 @@
 
 #include <GL/glew.h>
 #include <glm/glm.hpp>
+#include <ImGui/imgui.h>
 #include "GLErrorManager.h"
 
 #include <iostream>
@@ -86,6 +87,23 @@ public:
 	void setUniform<float>(const std::string& uniform, const float& value)
 	{
 		glUniform1f(getUniformLocation(uniform), value);
+	}
+	template<>
+	void setUniform<glm::vec3>(const std::string& uniform, const glm::vec3& value)
+	{
+		glUniform3f(getUniformLocation(uniform), value.r, value.g, value.b);
+	}
+
+	template<>
+	void setUniform<glm::vec4>(const std::string& uniform, const glm::vec4& value)
+	{
+		glUniform4f(getUniformLocation(uniform), value.r, value.g, value.b, value.a);
+	}
+
+	template<>
+	void setUniform < ImVec4 > (const std::string& uniform, const ImVec4& value)
+	{
+		glUniform4f(getUniformLocation(uniform), value.x, value.y, value.z, value.w);
 	}
 
 	template<>

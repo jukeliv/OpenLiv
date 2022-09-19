@@ -5,6 +5,10 @@
 #include <stb_image/stb_image.h>
 #include "GLErrorManager.h"
 
+#include <ImGui/imgui.h>
+#include <ImGui/imgui_impl_glfw.h>
+#include <ImGui/imgui_impl_opengl3.h>
+
 #include "Rendering/Buffers/VertexBuffer.h"
 #include "Rendering/Buffers/IndexBuffer.h"
 #include "Rendering/Buffers/VertexArray.h"
@@ -43,6 +47,13 @@ int main(void)
     }
     fprintf(stdout, "Status: Using GLEW %s\n", glewGetString(GLEW_VERSION));
 
+    IMGUI_CHECKVERSION();
+    ImGui::CreateContext();
+    ImGuiIO& io = ImGui::GetIO(); (void)io;
+    ImGui::StyleColorsDark();
+    ImGui_ImplGlfw_InitForOpenGL(window, true);
+    ImGui_ImplOpenGL3_Init((char*)glGetString(GL_NUM_SHADING_LANGUAGE_VERSIONS));
+
     {
         const float vertexData[] = {
             /*    Positions    Texture Coords */
@@ -72,14 +83,8 @@ int main(void)
         Shader mShader("Main");
         mShader.Bind();
         //fixing texture streching
-        //projection * view * model = final vertex position
         glm::mat4 proj = glm::ortho(-2.0f, 2.0f, -1.5f, 1.5f, -1.0f, 1.0f);//Set aspect ratio to 4:3
-        glm::mat4 view = glm::translate(glm::mat4(1.0f),glm::vec3(-1.0f, 0.0f, 0.0f));//Camera position
-        glm::mat4 model = glm::translate(glm::mat4(1.0f), glm::vec3(0.5f, 0.65f, 0.0f));//Object position
-
-        glm::mat4 mvp = proj * view * model;
-
-        mShader.setUniform<glm::mat4>("uMVP", mvp);
+        glm::mat4 view = glm::translate(glm::mat4(1.0f),glm::vec3(0.0f, 0.0f, 0.0f));//Camera position
 
         Texture mTex("res/textures/ricardo.png");
         mTex.Bind();
@@ -92,22 +97,38 @@ int main(void)
 
         Renderer renderer;
 
-        float v = 0;
+        ImVec4 color(1.0f, 1.0f, 1.0f, 1.0f);
+        float v = 1.0f;
         float increment = 0.01f;
+        glm::vec3 translation(0.0f, 0.0f, 0.0f);
         /* Loop until the user closes the window */
         while (!glfwWindowShouldClose(window))
         {
             /* Render here */
             renderer.Clear();
 
+            ImGui_ImplOpenGL3_NewFrame();
+            ImGui_ImplGlfw_NewFrame();
+            ImGui::NewFrame();
+
+
+            ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+            ImGui::SliderFloat("Alpha", &v, 0.0f, 1.0f);
+            ImGui::ColorEdit3("Color", (float*)&color);
+            ImGui::SliderFloat3("Position", &translation.x,-2.0f, 2.0f);
+
+            glm::mat4 model = glm::translate(glm::mat4(1.0f), translation);//Object position
+            //projection * view * model = final vertex position
+            glm::mat4 mvp = proj * view * model;
+
+            mShader.setUniform<glm::mat4>("uMVP", mvp);
+            mShader.setUniform<ImVec4>("uValue", color);
+            mShader.setUniform<float>("uAlpha", v);
+
             renderer.RenderScene(va, ib, mShader);
 
-            if (v > 1.0f)
-                increment = -0.05f;
-            else if (v < 0.0f)
-                increment = 0.05f;
-
-            v += increment;
+            ImGui::Render();
+            ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
             /* Swap front and back buffers */
             glfwSwapBuffers(window);
@@ -116,6 +137,10 @@ int main(void)
             glfwPollEvents();
         }
     }
+
+    ImGui_ImplOpenGL3_Shutdown();
+    ImGui_ImplGlfw_Shutdown();
+    ImGui::DestroyContext();
 
     glfwTerminate();
     return 0;
