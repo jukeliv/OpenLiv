@@ -154,7 +154,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="include\GLErrorManager.cpp" />
-    <ClCompile Include="include\stb\stb_image.cpp" />
     <ClCompile Include="src\Rendering\Renderer.cpp" />
     <ClCompile Include="src\Application.cpp" />
     <ClCompile Include="src\Rendering\Buffers\IndexBuffer.cpp" />
