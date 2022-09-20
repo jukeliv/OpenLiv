@@ -13,7 +13,7 @@
   - More devs
   - Make this Multiplatform
   - Add 64 bits build
-##Compiling - ( Only windows )
+## Compiling - ( Only windows )
   - Get inside the solution, build "OpenLiv"
   - copy "res" and paste it inside "bin/(Debug/Release)-Win32/"
   - Little side note, it only compiles on 32 bits, not 64, for now
