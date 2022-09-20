@@ -1,7 +1,7 @@
 ![](https://github.com/susyboy23/OpenLiv/blob/main/res/textures/example_0.png)
 # Simple Non-Profit 2D Game Engine made with C++ and OpenGL
 
-##Plan
+## Plan
   - Simple Editor
   - Simple Sprite Rendering
   - More devs
