@@ -153,6 +153,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Test\ClearColor.cpp" />
     <ClCompile Include="include\GLErrorManager.cpp" />
     <ClCompile Include="include\glm\detail\glm.cpp" />
     <ClCompile Include="include\ImGui\imgui.cpp" />
@@ -164,7 +165,7 @@
     <ClCompile Include="include\ImGui\imgui_widgets.cpp" />
     <ClCompile Include="include\stb_image\stb_image.cpp" />
     <ClCompile Include="src\Rendering\Renderer.cpp" />
-    <ClCompile Include="src\Application.cpp" />
+    <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\Rendering\Buffers\IndexBuffer.cpp" />
     <ClCompile Include="src\Rendering\Buffers\VertexArray.cpp" />
     <ClCompile Include="src\Rendering\Buffers\VertexBuffer.cpp" />
@@ -310,6 +311,7 @@
     <None Include="res\shaders\Main\fragment.shader" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Test\ClearColor.h" />
     <ClInclude Include="include\GLErrorManager.h" />
     <ClInclude Include="include\GLFW\glfw3.h" />
     <ClInclude Include="include\GLFW\glfw3native.h" />
@@ -616,6 +618,7 @@
     <ClInclude Include="src\Rendering\Buffers\VertexArray.h" />
     <ClInclude Include="src\Rendering\Buffers\VertexBufferLayout.h" />
     <ClInclude Include="src\Rendering\Utils\Texture.h" />
+    <ClInclude Include="src\Test\Application.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="res\shaders\README.txt" />
