@@ -27,7 +27,7 @@ int main(void)
     glewInit();
 
     /* Create a windowed mode window and its OpenGL context */
-    auto* window = glfwCreateWindow(640, 480, "Hello World", nullptr, nullptr);
+    auto* window = glfwCreateWindow(640, 480, "OpenLiv", nullptr, nullptr);
     if (!window)
     {
         glfwTerminate();
@@ -63,7 +63,7 @@ int main(void)
                 -0.5f,  0.5f,   0.0f, 1.0f      //3
         };
 
-        const unsigned int indices[] = {
+        const uint32_t indices[] = {
             0, 1, 2,
             2, 3, 0
         };
@@ -73,67 +73,81 @@ int main(void)
 
         VertexArray va;
         VertexBuffer vb(vertexData, 4 * 4 * sizeof(float));
-
         VertexBufferLayout layout;
         layout.PushData<float>(2);
         layout.PushData<float>(2);
         va.AddBuffer(vb, layout);
-
         IndexBuffer ib(indices, 6, GL_UNSIGNED_INT);
+
         Shader mShader("Main");
         mShader.Bind();
-        //fixing texture streching
-        glm::mat4 proj = glm::ortho(-2.0f, 2.0f, -1.5f, 1.5f, -1.0f, 1.0f);//Set aspect ratio to 4:3
-        glm::mat4 view = glm::translate(glm::mat4(1.0f),glm::vec3(0.0f, 0.0f, 0.0f));//Camera position
-
         Texture mTex("res/textures/ricardo.png");
         mTex.Bind();
         mShader.setUniform<int>("uTexture", 0);
-
         va.UnBind();
         vb.UnBind();
         ib.UnBind();
         mShader.UnBind();
 
-        Renderer renderer;
+        glm::mat4 proj = glm::ortho(-2.0f, 2.0f, -1.5f, 1.5f, -1.0f, 1.0f);//Set aspect ratio to 4:3
+        glm::mat4 view = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 0.0f));//Camera position
 
         ImVec4 color(1.0f, 1.0f, 1.0f, 1.0f);
         float v = 1.0f;
         float increment = 0.01f;
-        glm::vec3 translation(0.0f, 0.0f, 0.0f);
+
+        glm::vec3 translation(0, 0, 0);
+        glm::vec3 translationB(1, 1, 0);
+
+        Renderer renderer;
+
         /* Loop until the user closes the window */
         while (!glfwWindowShouldClose(window))
         {
             /* Render here */
+            glCall(glClearColor(color.x, color.y, color.z, 1.0f));
             renderer.Clear();
+
+            mShader.setUniform<float>("uAlpha", v);
+
 
             ImGui_ImplOpenGL3_NewFrame();
             ImGui_ImplGlfw_NewFrame();
             ImGui::NewFrame();
 
+            {
+                ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+                ImGui::SliderFloat("Alpha", &v, 0.0f, 1.0f);
+                ImGui::ColorEdit3("Color", (float*)&color);
+                ImGui::SliderFloat3("Position", &translation.x, -2.0f, 2.0f);
+                ImGui::SliderFloat3("Position 2", &translationB.x, -2.0f, 2.0f);
+            }
 
-            ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
-            ImGui::SliderFloat("Alpha", &v, 0.0f, 1.0f);
-            ImGui::ColorEdit3("Color", (float*)&color);
-            ImGui::SliderFloat3("Position", &translation.x,-2.0f, 2.0f);
+            {
+                glm::mat4 model = glm::translate(glm::mat4(1.0f), translation);//Object position
+                //projection * view * model = final vertex position
+                glm::mat4 mvp = proj * view * model;
+                mShader.Bind();
+                mShader.setUniform<glm::mat4>("uMVP", mvp);
 
-            glm::mat4 model = glm::translate(glm::mat4(1.0f), translation);//Object position
-            //projection * view * model = final vertex position
-            glm::mat4 mvp = proj * view * model;
+                renderer.RenderScene(va, ib, mShader);
+            }
 
-            mShader.setUniform<glm::mat4>("uMVP", mvp);
-            mShader.setUniform<ImVec4>("uValue", color);
-            mShader.setUniform<float>("uAlpha", v);
+            {
+                glm::mat4 model = glm::translate(glm::mat4(1.0f), translationB);//Object position
+                //projection * view * model = final vertex position
+                glm::mat4 mvp = proj * view * model;
+                mShader.Bind();
+                mShader.setUniform<glm::mat4>("uMVP", mvp);
 
-            renderer.RenderScene(va, ib, mShader);
+                renderer.RenderScene(va, ib, mShader);
+            }
 
             ImGui::Render();
             ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
-            /* Swap front and back buffers */
             glfwSwapBuffers(window);
-
-            /* Poll for and process events */
+            
             glfwPollEvents();
         }
     }

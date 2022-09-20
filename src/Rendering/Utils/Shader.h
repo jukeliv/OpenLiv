@@ -32,8 +32,8 @@ public:
 		: m_ProgramID(0)
 	{
 		m_ProgramID = glCreateProgram();
-		unsigned int vs = CompileShader(GL_VERTEX_SHADER, shaderFolder);
-		unsigned int fs = CompileShader(GL_FRAGMENT_SHADER, shaderFolder);
+		uint32_t vs = CompileShader(GL_VERTEX_SHADER, shaderFolder);
+		uint32_t fs = CompileShader(GL_FRAGMENT_SHADER, shaderFolder);
 
 		glCall(glAttachShader(m_ProgramID, vs));
 		glCall(glAttachShader(m_ProgramID, fs));
@@ -113,11 +113,11 @@ public:
 	}
 
 private:
-	unsigned int m_ProgramID;
-	//It was OpenGL 3.3 :)
+	uint32_t m_ProgramID;
+
 	std::unordered_map<std::string, int> m_UniformLocationCage;
 
-	static std::string getShadersPath() { return "src/Rendering/shaders/"; }
+	static std::string getShadersPath() { return "res/shaders/"; }
 
 	/*thanks a lot to `HomelikeBrick42` from TheChernos Discord
 	* for helping me with the error i was having with this function */
@@ -136,24 +136,25 @@ private:
 		return location;
 	}
 
-	static unsigned int CompileShader(unsigned int t, const std::string& folder)
+	static uint32_t CompileShader(uint32_t t, const std::string& folder)
 	{
-		unsigned int ID = glCreateShader(t);
-
 		const char* t_str = (t == GL_VERTEX_SHADER ? "vertex" : "fragment");
+		const std::string path = getShadersPath() + folder + "/" + t_str + ".shader";
 
-		std::ifstream stream(getShadersPath() + folder + "/" + t_str + ".shader");
+		uint32_t ID = glCreateShader(t);
+
+		std::ifstream stream(path);
 		std::stringstream buffer;
 
 		if (!stream) {
-			fprintf(stderr, "ERROR: No file in path: %s", getShadersPath() + folder + t_str + ".shader");
+			fprintf(stderr, "ERROR: No file in path: %s\n", path);
 			return NULL;
 		}
 
 		buffer << stream.rdbuf();
 
 		//Hardcode this shit cuz it hives errors B)
-		std::string src = "#version 330 core\n";
+		std::string src = "#version 330 core\n\n";
 		src.append(buffer.str());
 
 		const char* src_c = src.c_str();
@@ -181,11 +182,11 @@ private:
 		return ID;
 	}
 
-	static void glDeleteShaders(std::vector<unsigned int> shaders)
+	static void glDeleteShaders(std::vector<uint32_t> shaders)
 	{
 		for (int i = 0; i < shaders.size(); i++)
 		{
-			unsigned int shader = shaders[i];
+			uint32_t shader = shaders[i];
 
 			glCall(glDeleteShader(shader));
 		}

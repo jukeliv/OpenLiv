@@ -5,12 +5,12 @@
 
 class VertexBuffer {
 public:
-	VertexBuffer(const void* data, unsigned int size);
+	VertexBuffer(const void* data, uint32_t size);
 	~VertexBuffer();
 
 	void Bind() const;
 	void UnBind() const;
 
 private:
-	unsigned int m_RendererID;
+	uint32_t m_RendererID;
 };

@@ -9,11 +9,11 @@
 
 struct LayoutElement
 {
-	unsigned int type;
-	unsigned int count;
+	uint32_t type;
+	uint32_t count;
 	unsigned char normalized;
 
-	static unsigned int GetSizeOfType(unsigned int t)
+	static uint32_t GetSizeOfType(uint32_t t)
 	{
 		switch (t)
 		{
@@ -33,37 +33,37 @@ public:
 		: m_Stride(0) {}
 
 	template<typename T>
-	void PushData(unsigned int count)
+	void PushData(uint32_t count)
 	{
 		static_assert(false);
 	}
 
 	template<>
-	void PushData<float>(unsigned int  count)
+	void PushData<float>(uint32_t  count)
 	{
 		m_Elements.push_back({ GL_FLOAT, count, GL_FALSE });
 		m_Stride += LayoutElement::GetSizeOfType(GL_FLOAT) * count;
 	}
 
 	template<>
-	void PushData<unsigned int>(unsigned int  count)
+	void PushData<uint32_t>(uint32_t  count)
 	{
 		m_Elements.push_back({ GL_UNSIGNED_INT, count, GL_FALSE });
 		m_Stride += LayoutElement::GetSizeOfType(GL_UNSIGNED_INT) * count;
 	}
 
 	template<>
-	void PushData<unsigned char>(unsigned int  count)
+	void PushData<unsigned char>(uint32_t  count)
 	{
 		m_Elements.push_back({ GL_UNSIGNED_BYTE, count, GL_TRUE });
 		m_Stride += LayoutElement::GetSizeOfType(GL_UNSIGNED_BYTE) * count;
 	}
 
 	inline const std::vector <LayoutElement> GetElements() const& { return m_Elements; }
-	inline unsigned int GetStride() const { return m_Stride; }
+	inline uint32_t GetStride() const { return m_Stride; }
 
 private:
-	unsigned int m_Stride;
+	uint32_t m_Stride;
 	std::vector<LayoutElement> m_Elements;
 };
 

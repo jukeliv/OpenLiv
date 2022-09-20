@@ -92,7 +92,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>GLEW_STATIC;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)include\;$(SolutionDir)src\Rendering\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)include\;$(SolutionDir)src\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -109,7 +109,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>GLEW_STATIC;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)include\;$(SolutionDir)src\Rendering\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)include\;$(SolutionDir)src\</AdditionalIncludeDirectories>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
@@ -306,8 +306,8 @@
     <None Include="include\glm\gtx\vector_angle.inl" />
     <None Include="include\glm\gtx\vector_query.inl" />
     <None Include="include\glm\gtx\wrap.inl" />
-    <None Include="src\Rendering\shaders\Main\vertex.shader" />
-    <None Include="src\Rendering\shaders\Main\fragment.shader" />
+    <None Include="res\shaders\Main\vertex.shader" />
+    <None Include="res\shaders\Main\fragment.shader" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\GLErrorManager.h" />
@@ -618,7 +618,7 @@
     <ClInclude Include="src\Rendering\Utils\Texture.h" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="src\Rendering\shaders\README.txt" />
+    <Text Include="res\shaders\README.txt" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\textures\example_0.png" />

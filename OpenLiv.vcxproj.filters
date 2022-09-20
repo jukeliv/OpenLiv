@@ -62,8 +62,8 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="src\Rendering\shaders\Main\vertex.shader" />
-    <None Include="src\Rendering\shaders\Main\fragment.shader" />
+    <None Include="res\shaders\Main\vertex.shader" />
+    <None Include="res\shaders\Main\fragment.shader" />
     <None Include="include\glm\detail\func_common.inl">
       <Filter>Header Files</Filter>
     </None>
@@ -1394,7 +1394,7 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="src\Rendering\shaders\README.txt" />
+    <Text Include="res\shaders\README.txt" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\textures\example_0.png">

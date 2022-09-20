@@ -1,6 +1,6 @@
 #pragma once
-#include "Renderer.h"
-#include "stb_image/stb_image.h"
+#include "Rendering/Renderer.h"
+#include <stb_image/stb_image.h>
 
 class Texture
 {
@@ -38,7 +38,7 @@ public:
 		glCall(glDeleteTextures(1, &m_RendererID));
 	}
 
-	void Bind(unsigned int slot = 0) const
+	void Bind(uint32_t slot = 0) const
 	{
 		glCall(glActiveTexture(GL_TEXTURE0+slot));
 		glCall(glBindTexture(GL_TEXTURE_2D, m_RendererID));
@@ -52,7 +52,7 @@ public:
 	inline int GetWidth() const { return m_Width; }
 	inline int GetHeight() const { return m_Height; }
 private:
-	unsigned int m_RendererID;
+	uint32_t m_RendererID;
 	std::string m_FilePath;
 	unsigned char* m_LocalBuffer;
 	int m_Width, m_Height, m_BPP;

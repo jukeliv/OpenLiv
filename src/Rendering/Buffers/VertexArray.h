@@ -16,6 +16,6 @@ public:
 	void UnBind() const;
 
 private:
-	unsigned int m_RendererID;
+	uint32_t m_RendererID;
 };
 

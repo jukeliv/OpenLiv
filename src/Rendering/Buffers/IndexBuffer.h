@@ -6,16 +6,16 @@
 class IndexBuffer
 {
 public:
-	IndexBuffer(const unsigned int* data, unsigned int count, unsigned int type);
+	IndexBuffer(const uint32_t* data, uint32_t count, uint32_t type);
 	~IndexBuffer();
 
 	void Bind() const;
 	void UnBind() const;
 
-	inline unsigned int GetCount() const { return m_Count; }
-	inline unsigned int GetType() const { return m_Type; }
+	inline uint32_t GetCount() const { return m_Count; }
+	inline uint32_t GetType() const { return m_Type; }
 private:
-	unsigned int m_RendererID;
-	unsigned int m_Type;
-	unsigned int m_Count;
+	uint32_t m_RendererID;
+	uint32_t m_Type;
+	uint32_t m_Count;
 };
