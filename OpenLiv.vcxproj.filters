@@ -60,7 +60,10 @@
     <ClCompile Include="include\ImGui\imgui_impl_opengl3.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Test\ClearColor.cpp">
+    <ClCompile Include="src\Examples\ClearColor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Examples\Application.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1395,10 +1398,13 @@
     <ClInclude Include="include\ImGui\imgui_impl_opengl3_loader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Test\Application.h">
+    <ClInclude Include="src\Examples\Application.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Test\ClearColor.h">
+    <ClInclude Include="src\Examples\ClearColor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\StringTools.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -16,7 +16,8 @@
 #include "Rendering/Renderer.h"
 #include "Rendering/Utils/Texture.h"
 
-#include <Test/ClearColor.h>
+#include <Examples/Application.h>
+#include <Examples/ClearColor.h>
 
 #include <iostream>
 
@@ -47,6 +48,7 @@ int main(void)
         fprintf(stderr, "Error: %s\n", glewGetErrorString(err));
         return -1;
     }
+
     fprintf(stdout, "Status: Using GLEW %s\n", glewGetString(GLEW_VERSION));
 
     IMGUI_CHECKVERSION();
@@ -56,41 +58,62 @@ int main(void)
     ImGui_ImplGlfw_InitForOpenGL(window, true);
     ImGui_ImplOpenGL3_Init((char*)glGetString(GL_NUM_SHADING_LANGUAGE_VERSIONS));
 
-    {
-        glCall(glEnable(GL_BLEND));
-        glCall(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
+    glCall(glEnable(GL_BLEND));
+    glCall(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
 
-        Renderer renderer;
-        tests::ClearColor test;
+    Renderer renderer;
+    tests::Application* currentApp = nullptr;
+    tests::AppsMenu* appMenu = new tests::AppsMenu(currentApp);
+    currentApp = appMenu;
+
+    appMenu->RegisterApp<tests::ClearColor>("Clear Color");
+    {
         /* Loop until the user closes the window */
         while (!glfwWindowShouldClose(window))
         {
             /* Render here */
             renderer.Clear();
 
-            test.OnUpdate(0.0f);
-
-            test.OnRender();
-
             ImGui_ImplOpenGL3_NewFrame();
             ImGui_ImplGlfw_NewFrame();
             ImGui::NewFrame();
 
-            test.OnUIRender();
+            if (currentApp)
+            {
+                currentApp->OnUpdate(0.0f);
+
+                currentApp->OnRender();
+
+                ImGui::Begin("Test");
+
+                if (currentApp != appMenu && ImGui::Button("<-"))
+                {
+                    delete currentApp;
+                    glCall(glClearColor(0.0f, 0.0f, 0.0f, 1.0f));
+                    currentApp = appMenu;
+                }
+
+                currentApp->OnUIRender();
+
+                ImGui::End();
+            }
 
             ImGui::Render();
             ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
             glfwSwapBuffers(window);
-            
+
             glfwPollEvents();
         }
+
+        delete currentApp;
+        if (currentApp != appMenu)
+            delete appMenu;
     }
 
     ImGui_ImplOpenGL3_Shutdown();
     ImGui_ImplGlfw_Shutdown();
     ImGui::DestroyContext();
-
     glfwTerminate();
     return 0;
 }

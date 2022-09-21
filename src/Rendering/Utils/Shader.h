@@ -4,6 +4,7 @@
 #include <glm/glm.hpp>
 #include <ImGui/imgui.h>
 #include "GLErrorManager.h"
+#include <StringTools.h>
 
 #include <iostream>
 #include <fstream>
@@ -11,20 +12,6 @@
 #include <sstream>
 #include <vector>
 #include <unordered_map>
-
-struct Vec3
-{
-	Vec3(float _x, float _y, float _z)
-	{
-		x = _x;
-		y = _y;
-		z = _z;
-	}
-
-	float x;
-	float y;
-	float z;
-};
 
 class Shader {
 public:
@@ -82,7 +69,6 @@ public:
 	{
 		glUniform1i(getUniformLocation(uniform), value);
 	}
-
 	template<>
 	void setUniform<float>(const std::string& uniform, const float& value)
 	{
@@ -93,19 +79,16 @@ public:
 	{
 		glUniform3f(getUniformLocation(uniform), value.r, value.g, value.b);
 	}
-
 	template<>
 	void setUniform<glm::vec4>(const std::string& uniform, const glm::vec4& value)
 	{
 		glUniform4f(getUniformLocation(uniform), value.r, value.g, value.b, value.a);
 	}
-
 	template<>
 	void setUniform < ImVec4 > (const std::string& uniform, const ImVec4& value)
 	{
 		glUniform4f(getUniformLocation(uniform), value.x, value.y, value.z, value.w);
 	}
-
 	template<>
 	void setUniform<glm::mat4>(const std::string& uniform, const glm::mat4& value)
 	{
@@ -115,18 +98,19 @@ public:
 private:
 	uint32_t m_ProgramID;
 
-	std::unordered_map<std::string, int> m_UniformLocationCage;
+	mutable std::unordered_map<std::string, uint32_t> m_UniformLocationCage;
 
 	static std::string getShadersPath() { return "res/shaders/"; }
 
 	/*thanks a lot to `HomelikeBrick42` from TheChernos Discord
 	* for helping me with the error i was having with this function */
-	int getUniformLocation(const std::string& uniform)
+	uint32_t getUniformLocation(const std::string& uniform) const
 	{
 		if (m_UniformLocationCage.find(uniform) != m_UniformLocationCage.end())
 			return m_UniformLocationCage.at(uniform);
 
-		int location = glGetUniformLocation(m_ProgramID, uniform.c_str());
+		uint32_t location = glGetUniformLocation(m_ProgramID, uniform.c_str());
+
 		if (location == -1) {
 			fprintf(stderr, "ERROR: %s does not exist\n", uniform.c_str());
 			return NULL;
@@ -138,24 +122,15 @@ private:
 
 	static uint32_t CompileShader(uint32_t t, const std::string& folder)
 	{
-		const char* t_str = (t == GL_VERTEX_SHADER ? "vertex" : "fragment");
-		const std::string path = getShadersPath() + folder + "/" + t_str + ".shader";
+		const char* t_str = (t == GL_VERTEX_SHADER ? "vertex.shader" : "fragment.shader");
+
+		const std::string file = StringTools::getFile(getShadersPath() + folder, t_str);
 
 		uint32_t ID = glCreateShader(t);
 
-		std::ifstream stream(path);
-		std::stringstream buffer;
-
-		if (!stream) {
-			fprintf(stderr, "ERROR: No file in path: %s\n", path);
-			return NULL;
-		}
-
-		buffer << stream.rdbuf();
-
 		//Hardcode this shit cuz it hives errors B)
 		std::string src = "#version 330 core\n\n";
-		src.append(buffer.str());
+		src.append(file.c_str());
 
 		const char* src_c = src.c_str();
 
@@ -184,10 +159,8 @@ private:
 
 	static void glDeleteShaders(std::vector<uint32_t> shaders)
 	{
-		for (int i = 0; i < shaders.size(); i++)
+		for(auto& shader : shaders)
 		{
-			uint32_t shader = shaders[i];
-
 			glCall(glDeleteShader(shader));
 		}
 	}

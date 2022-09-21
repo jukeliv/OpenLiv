@@ -1,16 +1,18 @@
 #pragma once
 #include "Rendering/Renderer.h"
 #include <stb_image/stb_image.h>
+#include <StringTools.h>
 
 class Texture
 {
 public:
-	Texture(const std::string& path)
-		: m_RendererID(0), m_FilePath(path), m_LocalBuffer(nullptr),
+	Texture(const std::string& file)
+		: m_RendererID(0), m_FilePath(StringTools::getFile("res/textures", file)), m_LocalBuffer(nullptr),
 		m_Width(0), m_Height(0), m_BPP(0)
 	{
 		stbi_set_flip_vertically_on_load(1);
-		m_LocalBuffer = stbi_load(path.c_str(), &m_Width, &m_Height, &m_BPP, 4);
+		m_LocalBuffer = stbi_load(m_FilePath.c_str(), &m_Width, &m_Height, &m_BPP, 4);
+		fprintf(stdout, "Path: %s\n", m_FilePath.c_str());
 
 		glCall(glGenTextures(1, &m_RendererID));
 		glCall(glBindTexture(GL_TEXTURE_2D, m_RendererID));
@@ -27,9 +29,10 @@ public:
 			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, m_Width, m_Height, 0, GL_RGBA, GL_UNSIGNED_BYTE, m_LocalBuffer);
 			glBindTexture(GL_TEXTURE_2D, 0);
 			stbi_image_free(m_LocalBuffer);
+			fprintf(stdout, "Succesfully created texture\n");
 		}
 		else {
-			fprintf(stderr, "\nError: Failed to load texture\n%s", stbi_failure_reason());
+			fprintf(stderr, "Error: Failed to load texture\n%s\n", stbi_failure_reason());
 			ASSERT(false);
 		}
 	}
