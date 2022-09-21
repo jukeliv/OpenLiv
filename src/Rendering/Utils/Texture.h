@@ -1,18 +1,20 @@
 #pragma once
 #include "Rendering/Renderer.h"
 #include <stb_image/stb_image.h>
-#include <StringTools.h>
+#include <iostream>
 
 class Texture
 {
 public:
 	Texture(const std::string& file)
-		: m_RendererID(0), m_FilePath(StringTools::getFile("res/textures", file)), m_LocalBuffer(nullptr),
+		: m_RendererID(0), m_LocalBuffer(nullptr),
 		m_Width(0), m_Height(0), m_BPP(0)
 	{
+		std::string path = "res/textures/";
+		path.append(file);
+
 		stbi_set_flip_vertically_on_load(1);
-		m_LocalBuffer = stbi_load(m_FilePath.c_str(), &m_Width, &m_Height, &m_BPP, 4);
-		fprintf(stdout, "Path: %s\n", m_FilePath.c_str());
+		m_LocalBuffer = stbi_load(path.c_str(), &m_Width, &m_Height, &m_BPP, 4);
 
 		glCall(glGenTextures(1, &m_RendererID));
 		glCall(glBindTexture(GL_TEXTURE_2D, m_RendererID));
@@ -32,7 +34,7 @@ public:
 			fprintf(stdout, "Succesfully created texture\n");
 		}
 		else {
-			fprintf(stderr, "Error: Failed to load texture\n%s\n", stbi_failure_reason());
+			fprintf(stderr, "Error: Failed to load texture in path\n%s\n( reason: %s )\n", path, stbi_failure_reason());
 			ASSERT(false);
 		}
 	}
@@ -56,7 +58,6 @@ public:
 	inline int GetHeight() const { return m_Height; }
 private:
 	uint32_t m_RendererID;
-	std::string m_FilePath;
 	unsigned char* m_LocalBuffer;
 	int m_Width, m_Height, m_BPP;
 };

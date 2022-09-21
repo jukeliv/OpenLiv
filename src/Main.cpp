@@ -16,7 +16,7 @@
 #include "Rendering/Renderer.h"
 #include "Rendering/Utils/Texture.h"
 
-#include <Examples/Application.h>
+#include <Examples/DrawTexture2D.h>
 #include <Examples/ClearColor.h>
 
 #include <iostream>
@@ -58,15 +58,14 @@ int main(void)
     ImGui_ImplGlfw_InitForOpenGL(window, true);
     ImGui_ImplOpenGL3_Init((char*)glGetString(GL_NUM_SHADING_LANGUAGE_VERSIONS));
 
-    glCall(glEnable(GL_BLEND));
-    glCall(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
-
     Renderer renderer;
     tests::Application* currentApp = nullptr;
     tests::AppsMenu* appMenu = new tests::AppsMenu(currentApp);
     currentApp = appMenu;
 
     appMenu->RegisterApp<tests::ClearColor>("Clear Color");
+    appMenu->RegisterApp<tests::DrawTexture2D>("Draw Texture");
+
     {
         /* Loop until the user closes the window */
         while (!glfwWindowShouldClose(window))
@@ -77,12 +76,12 @@ int main(void)
             ImGui_ImplOpenGL3_NewFrame();
             ImGui_ImplGlfw_NewFrame();
             ImGui::NewFrame();
-
+            
             if (currentApp)
             {
                 currentApp->OnUpdate(0.0f);
 
-                currentApp->OnRender();
+                currentApp->OnRender(renderer);
 
                 ImGui::Begin("Test");
 
@@ -97,6 +96,13 @@ int main(void)
 
                 ImGui::End();
             }
+
+            #ifndef NDEBUG
+            ImGui::Begin("Debug");
+            ImGui::Text("(%.1f FPS)", ImGui::GetIO().Framerate);
+            ImGui::Text("Average % .3f ms", 1000.0f / ImGui::GetIO().Framerate);
+            ImGui::End();
+            #endif
 
             ImGui::Render();
             ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());

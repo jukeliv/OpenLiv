@@ -11,7 +11,7 @@ namespace tests {
 		Application() {}
 		virtual ~Application() {}
 		virtual void OnUpdate(float delta) {}
-		virtual void OnRender() {}
+		virtual void OnRender(Renderer& renderer) {}
 		virtual void OnUIRender() {}
 	};
 
@@ -28,17 +28,6 @@ namespace tests {
 		{
 			m_Applications.push_back(std::make_pair(name, []() {return new T(); }));
 			std::cout << "Application " << name << " Succefully registered" << std::endl;
-		}
-
-		template<typename T>
-		void RegistrAppsVector(const std::vector<T> apps, const std::vector<std::string> names)
-		{
-			for (int i = 0; i < apps.size(); i++)
-			{
-				auto& app = apps[i];
-				std::string name = names[i];
-				RegisterApp<app>(name);
-			}
 		}
 	private:
 		Application*& m_CurrentApp;

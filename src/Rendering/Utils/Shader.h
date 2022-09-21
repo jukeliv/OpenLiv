@@ -4,7 +4,6 @@
 #include <glm/glm.hpp>
 #include <ImGui/imgui.h>
 #include "GLErrorManager.h"
-#include <StringTools.h>
 
 #include <iostream>
 #include <fstream>
@@ -122,15 +121,26 @@ private:
 
 	static uint32_t CompileShader(uint32_t t, const std::string& folder)
 	{
-		const char* t_str = (t == GL_VERTEX_SHADER ? "vertex.shader" : "fragment.shader");
+		const char* t_str = (t == GL_VERTEX_SHADER ? "/vertex.shader" : "/fragment.shader");
 
-		const std::string file = StringTools::getFile(getShadersPath() + folder, t_str);
+		std::string path = getShadersPath();
+		path.append(folder);
+		path.append(t_str);
 
 		uint32_t ID = glCreateShader(t);
 
+		std::ifstream stream(path);
+		std::stringstream buffer;
+		if (!stream) {
+			fprintf(stderr, "ERROR: No file in path: %s\n", path.c_str());
+			return NULL;
+		}
+
+		buffer << stream.rdbuf();
+
 		//Hardcode this shit cuz it gives errors B)
 		std::string src = "#version 330 core\n\n";
-		src.append(file.c_str());
+		src.append(buffer.str());
 
 		const char* src_c = src.c_str();
 
@@ -145,7 +155,7 @@ private:
 			int len;
 			glGetShaderiv(ID, GL_INFO_LOG_LENGTH, &len);
 
-			char* message = (char*)malloc(len);
+			char* message = (char*)_malloca(len);
 
 			glGetShaderInfoLog(ID, len, &len, message);
 
@@ -159,8 +169,9 @@ private:
 
 	static void glDeleteShaders(std::vector<uint32_t> shaders)
 	{
-		for(auto& shader : shaders)
+		for(uint32_t& shader : shaders)
 		{
+			//std::async(std::launch::async, glDeleteShader, shader);
 			glCall(glDeleteShader(shader));
 		}
 	}

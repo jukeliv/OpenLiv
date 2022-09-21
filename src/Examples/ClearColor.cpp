@@ -9,7 +9,7 @@ namespace tests {
 	{
 	}
 
-	void ClearColor::OnRender()
+	void ClearColor::OnRender(Renderer& renderer)
 	{
 		glCall(glClearColor(m_ClearColor[0], m_ClearColor[1], m_ClearColor[2], 1.0f));
 		/*Clear is handled by Renderer.h

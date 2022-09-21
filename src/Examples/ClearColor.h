@@ -7,7 +7,7 @@ namespace tests {
 	public:
 		ClearColor();
 		~ClearColor();
-		void OnRender() override;
+		void OnRender(Renderer& renderer) override;
 		void OnUIRender() override;
 	private:
 		float m_ClearColor[3];
