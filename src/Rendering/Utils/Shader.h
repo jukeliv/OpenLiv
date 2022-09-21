@@ -128,7 +128,7 @@ private:
 
 		uint32_t ID = glCreateShader(t);
 
-		//Hardcode this shit cuz it hives errors B)
+		//Hardcode this shit cuz it gives errors B)
 		std::string src = "#version 330 core\n\n";
 		src.append(file.c_str());
 
