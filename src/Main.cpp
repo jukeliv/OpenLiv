@@ -14,7 +14,7 @@
 #include "Rendering/Buffers/VertexArray.h"
 #include "Rendering/Utils/Shader.h"
 #include "Rendering/Renderer.h"
-#include "Rendering/Utils/Texture.h"
+#include "Rendering/Utils/Textures/Texture.h"
 
 #include <Examples/DrawTexture2D.h>
 #include <Examples/ClearColor.h>

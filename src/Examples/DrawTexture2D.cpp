@@ -5,13 +5,10 @@
 
 #include "Rendering/Buffers/VertexBuffer.h"
 #include "Rendering/Buffers/VertexBufferLayout.h"
-#include "Rendering/Utils/Texture.h"
 
 namespace tests {
 	DrawTexture2D::DrawTexture2D()
-		:m_Projection(glm::ortho(-2.0f, 2.0f, -1.5f, 1.5f, -0.1f, 1.0f)),
-		m_View(glm::translate(glm::mat4(1.0f), glm::vec3(0.0f))),
-		m_Translation(0.0f)
+		: m_Translation(0.0f), m_TranslationB(1.0f, 0.0f, 0.0f)
 	{
 		const float vertexData[16] = {
 			-0.5f, -0.5f, 0.0f, 0.0f,
@@ -36,11 +33,8 @@ namespace tests {
 		m_IBO = std::make_unique<IndexBuffer>(indices, 6, GL_UNSIGNED_INT);
 
 		m_Shader = std::make_unique<Shader>("Main");
-		m_Shader->Bind();
-		m_Shader->setUniform<float>("uAlpha", 1.0f);
-		m_Texture = std::make_unique<Texture>("ricardo.png");
-		m_Texture->Bind();
-		m_Shader->setUniform<int>("uTexture", 0);
+		m_Sprite = std::make_unique<Sprite>("ricardo.png", *m_VAO, *m_IBO, *m_Shader);
+		m_SpriteB = std::make_unique<Sprite>("ricardo.png", *m_VAO, *m_IBO, *m_Shader);
 	}
 
 	DrawTexture2D::~DrawTexture2D()
@@ -52,14 +46,15 @@ namespace tests {
 	{
 		glCall(glClearColor(0.0f, 0.0f, 0.0f, 1.0f));
 
-		glm::mat4 model = glm::translate(glm::mat4(1.0f), m_Translation);
-		glm::mat4 pvm = m_Projection * m_View * model;
+		m_Sprite->Draw(renderer);
+		m_Sprite->SetTranslation(m_Translation);
+		m_SpriteB->Draw(renderer);
+		m_SpriteB->SetTranslation(m_TranslationB);
 
-		renderer.RenderScene(*m_VAO, *m_IBO, *m_Shader);
-		m_Shader->setUniform<glm::mat4>("uPVM", pvm);
 	}
 	void DrawTexture2D::OnUIRender()
 	{
 		ImGui::SliderFloat2("Position",&m_Translation.x, -1.0f, 1.0f);
+		ImGui::SliderFloat2("PositionB", &m_TranslationB.x, -1.0f, 1.0f);
 	}
 }

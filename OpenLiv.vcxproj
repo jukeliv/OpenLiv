@@ -92,6 +92,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Rendering\Utils\Textures\Sprite.cpp" />
     <ClCompile Include="src\Examples\DrawTexture2D.cpp" />
     <ClCompile Include="src\Examples\Application.cpp" />
     <ClCompile Include="src\Examples\ClearColor.cpp" />
@@ -252,6 +253,7 @@
     <None Include="res\shaders\Main\fragment.shader" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Rendering\Utils\Textures\Sprite.h" />
     <ClInclude Include="src\Examples\DrawTexture2D.h" />
     <ClInclude Include="src\Examples\ClearColor.h" />
     <ClInclude Include="include\GLErrorManager.h" />
@@ -559,7 +561,7 @@
     <ClInclude Include="src\Rendering\Buffers\VertexBuffer.h" />
     <ClInclude Include="src\Rendering\Buffers\VertexArray.h" />
     <ClInclude Include="src\Rendering\Buffers\VertexBufferLayout.h" />
-    <ClInclude Include="src\Rendering\Utils\Texture.h" />
+    <ClInclude Include="src\Rendering\Utils\Textures\Texture.h" />
     <ClInclude Include="src\Examples\Application.h" />
   </ItemGroup>
   <ItemGroup>
