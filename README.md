@@ -14,7 +14,8 @@
 ## Compiling - ( Only windows )
   -- Little side note, it only compiles on 32 bits, not 64, for now --
   - Get inside the solution, build "OpenLiv"
-  - copy "res" and paste it inside "bin/Release-Win32/" ( this only works on Release mode, in Debug, only open the shortcut )
+  - copy "res" and paste it inside "bin/Release-Win32/"
+  - ( Last step is only on Release mode, in Debug, only open the app shortcut inside "bin/Debug-Win32/" )
   
 ## Comon errors
   - Shaders
