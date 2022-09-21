@@ -14,8 +14,8 @@
   - Make this Multiplatform
   - Add 64 bits build
 ## Compiling - ( Only windows )
+  -- Little side note, it only compiles on 32 bits, not 64, for now --
   - Get inside the solution, build "OpenLiv"
-  - copy "res" and paste it inside "bin/(Debug/Release)-Win32/"
-  - Little side note, it only compiles on 32 bits, not 64, for now
+  - copy "res" and paste it inside "bin/Release-Win32/" ( this only works on Release mode, in Debug, only open the shortcut )
 ## Thanks
   - [TheCherno](https://twitter.com/thecherno) for your epic OpenGL Series :)
