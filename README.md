@@ -8,14 +8,26 @@
   - [ImGui](https://github.com/ocornut/imgui)
   - [stb_image](https://github.com/nothings/stb/blob/master/stb_image.h)
 
+##Screenshost
+  - REMEMBER TO ADD SCREENSHOTS WHEN YOU HAVE SOMETHING TO SHOW DUMBASS
+  
+## Compiling - ( Only windows )
+  -- Little side note, it only compiles on 32 bits, not 64, for now --
+  - Get inside the solution, build "OpenLiv"
+  - copy "res" and paste it inside "bin/Release-Win32/" ( this only works on Release mode, in Debug, only open the shortcut )
+  
+## Comon errors
+  - Shaders
+    - So you are trying to compile a shader but it gives errors?
+    - Maybe its cuz you have a "#version 330 core" or what ever version at the start, remove it
+    - All that is handled by Shaders.h so you dont have to struggle with it
+    - ( Also cuz it casued a lot of file reading errors )
+    
 ## Plan
   - Editor
   - More devs
   - Make this Multiplatform
   - Add 64 bits build
-## Compiling - ( Only windows )
-  -- Little side note, it only compiles on 32 bits, not 64, for now --
-  - Get inside the solution, build "OpenLiv"
-  - copy "res" and paste it inside "bin/Release-Win32/" ( this only works on Release mode, in Debug, only open the shortcut )
+  
 ## Thanks
   - [TheCherno](https://twitter.com/thecherno) for your epic OpenGL Series :)
