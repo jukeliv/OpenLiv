@@ -1,8 +1,5 @@
 bin/
 bin-int/
-.vs/OpenLiv/
+.vs/
 .git/
 OpenLiv.vcxproj.filters
-.vs/OpenLiv/v16/ipch/AutoPCH/42636a9508c35bfe/MAIN.ipch
-.vs/OpenLiv/v16/ipch/AutoPCH/42636a9508c35bfe/MAIN.ipch
-.vs/OpenLiv/v16/.suo
