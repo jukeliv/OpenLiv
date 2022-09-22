@@ -8,7 +8,8 @@ public:
 	Sprite(const std::string& texture, VertexArray& vao, IndexBuffer& ibo, Shader& shader);
 	~Sprite();
 	void Draw(Renderer& renderer);
-	void SetTranslation(glm::vec3 newPos);
+	void SetTranslation(const glm::vec3& newPos);
+	void SetScale(const float& newPos);
 private:
 	glm::vec3 m_Translation;
 	glm::mat4 m_Projection;

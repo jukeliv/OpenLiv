@@ -8,7 +8,6 @@ Sprite::Sprite(const std::string& texture, VertexArray& vao, IndexBuffer& ibo, S
 	m_IBO(ibo)
 {
 	m_Shader.Bind();
-	m_Shader.setUniform<float>("uAlpha", 1.0f);
 	m_Texture.Bind();
 	m_Shader.setUniform<int>("uTexture", 0);
 
@@ -38,7 +37,14 @@ void Sprite::Draw(Renderer& renderer)
 	}
 }
 
-void Sprite::SetTranslation(glm::vec3 newPos)
+
+void Sprite::SetTranslation(const glm::vec3& newPos)
 {
 	m_Translation = newPos;
+}
+
+void Sprite::SetScale(const float& scale)
+{
+	m_Shader.Bind();
+	m_Shader.setUniform<float>("uScale", scale);
 }

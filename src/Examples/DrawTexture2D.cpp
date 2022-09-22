@@ -7,7 +7,7 @@
 
 namespace tests {
 	DrawTexture2D::DrawTexture2D()
-		: m_Translation(0.0f), m_TranslationB(1.0f, 0.0f, 0.0f)
+		: m_Translation(0.0f)
 	{
 		const float vertexData[16] = {
 			-0.5f, -0.5f, 0.0f, 0.0f,
@@ -33,7 +33,6 @@ namespace tests {
 
 		m_Shader = std::make_unique<Shader>("Main");
 		m_Sprite = std::make_unique<Sprite>("ricardo.png", *m_VAO, *m_IBO, *m_Shader);
-		m_SpriteB = std::make_unique<Sprite>("ricardo.png", *m_VAO, *m_IBO, *m_Shader);
 	}
 
 	DrawTexture2D::~DrawTexture2D()
@@ -46,20 +45,12 @@ namespace tests {
 	{
 		glCall(glClearColor(0.0f, 0.0f, 0.0f, 1.0f));
 
-		{
-			m_Sprite->Draw(renderer);
-			m_Sprite->SetTranslation(m_Translation);
-		}
-
-		{
-			m_SpriteB->Draw(renderer);
-			m_SpriteB->SetTranslation(m_TranslationB);
-		}
+		m_Sprite->Draw(renderer);
+		m_Sprite->SetTranslation(m_Translation);
 
 	}
 	void DrawTexture2D::OnUIRender()
 	{
 		ImGui::SliderFloat2("Position",&m_Translation.x, -1.0f, 1.0f);
-		ImGui::SliderFloat2("Position B", &m_TranslationB.x, -1.0f, 1.0f);
 	}
 }

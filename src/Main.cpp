@@ -18,7 +18,7 @@
 
 #include <Examples/DrawTexture2D.h>
 #include <Examples/ClearColor.h>
-#include <Examples/Sandbox.h>
+#include <Examples/MultipleTextures.h>
 
 #include <iostream>
 
@@ -32,7 +32,7 @@ int main(void)
 
     /* Create a windowed mode window and its OpenGL context */
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-    auto* window = glfwCreateWindow(640, 480, "OpenLiv", nullptr, nullptr);
+    auto* window = glfwCreateWindow(960, 720, "OpenLiv", nullptr, nullptr);
     if (!window)
     {
         glfwTerminate();
@@ -67,7 +67,7 @@ int main(void)
 
     appMenu->RegisterApp<tests::ClearColor>("Clear Color");
     appMenu->RegisterApp<tests::DrawTexture2D>("Draw Texture");
-    appMenu->RegisterApp<tests::Sandbox>("Sandbox");
+    appMenu->RegisterApp<tests::MultipleTextures>("Multiple Textures");
 
     {
         /* Loop until the user closes the window */
