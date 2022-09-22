@@ -31,10 +31,10 @@ public:
 			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, m_Width, m_Height, 0, GL_RGBA, GL_UNSIGNED_BYTE, m_LocalBuffer);
 			glBindTexture(GL_TEXTURE_2D, 0);
 			stbi_image_free(m_LocalBuffer);
-			fprintf(stdout, "Succesfully created texture\n %s", path.c_str());
+			fprintf(stdout, "Succesfully created texture\n %s\n", path.c_str());
 		}
 		else {
-			fprintf(stderr, "Error: Failed to load texture in path\n %s \n( reason: %s )\n", path.c_str(), stbi_failure_reason());
+			fprintf(stderr, "Error: Failed to load texture in path\n %s\n( reason: %s )\n", path.c_str(), stbi_failure_reason());
 			ASSERT(false);
 		}
 	}
@@ -43,7 +43,7 @@ public:
 		glCall(glDeleteTextures(1, &m_RendererID));
 	}
 
-	void Bind(uint32_t slot = 0) const
+	void Bind(uint32_t slot = 0) const	
 	{
 		glCall(glActiveTexture(GL_TEXTURE0+slot));
 		glCall(glBindTexture(GL_TEXTURE_2D, m_RendererID));

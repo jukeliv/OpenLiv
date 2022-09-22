@@ -31,6 +31,7 @@ int main(void)
     glewInit();
 
     /* Create a windowed mode window and its OpenGL context */
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     auto* window = glfwCreateWindow(640, 480, "OpenLiv", nullptr, nullptr);
     if (!window)
     {

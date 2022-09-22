@@ -12,6 +12,7 @@ namespace tests {
 		~Sandbox();
 		void OnRender(Renderer& renderer) override;
 		void OnUIRender() override;
+
 	private:
 		glm::vec3 m_Translation;
 		glm::vec3 m_TranslationB;
@@ -20,7 +21,7 @@ namespace tests {
 		std::unique_ptr<IndexBuffer> m_IBO;
 		std::unique_ptr <Shader> m_Shader;
 
-		std::unique_ptr<Sprite> m_BoxSpr;
-		std::unique_ptr<Sprite> m_BGSpr;
+		std::unique_ptr <Sprite> m_BoxSprite;
+		std::unique_ptr <Sprite> m_BGSprite;
 	};
 }

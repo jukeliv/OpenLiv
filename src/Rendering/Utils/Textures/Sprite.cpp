@@ -9,7 +9,13 @@ Sprite::Sprite(const std::string& texture, VertexArray& vao, IndexBuffer& ibo, S
 {
 	m_Shader.Bind();
 	m_Shader.setUniform<float>("uAlpha", 1.0f);
+	m_Texture.Bind();
 	m_Shader.setUniform<int>("uTexture", 0);
+
+	vao.UnBind();
+	ibo.UnBind();
+	m_Shader.UnBind();
+	m_Texture.UnBind();
 }
 
 Sprite::~Sprite()
@@ -20,11 +26,16 @@ Sprite::~Sprite()
 void Sprite::Draw(Renderer& renderer)
 {
 	m_Texture.Bind();
-	glm::mat4 model = glm::translate(glm::mat4(1.0f), m_Translation);
-	glm::mat4 pvm = m_Projection * m_View * model;
 
-	renderer.RenderScene(m_VAO, m_IBO, m_Shader);
-	m_Shader.setUniform<glm::mat4>("uPVM", pvm);
+	{
+		glm::mat4 model = glm::translate(glm::mat4(1.0f), m_Translation);
+		glm::mat4 pvm = m_Projection * m_View * model;
+
+		m_Shader.Bind();
+		m_Shader.setUniform<glm::mat4>("uPVM", pvm);
+
+		renderer.RenderScene(m_VAO, m_IBO, m_Shader);
+	}
 }
 
 void Sprite::SetTranslation(glm::vec3 newPos)

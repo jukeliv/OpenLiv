@@ -7,7 +7,7 @@
 
 namespace tests {
 	Sandbox::Sandbox()
-		: m_Translation(0.0f)
+		: m_Translation(0.0f), m_TranslationB(0.0f)
 	{
 		const float vertexData[16] = {
 			-0.5f, -0.5f, 0.0f, 0.0f,
@@ -32,8 +32,9 @@ namespace tests {
 		m_IBO = std::make_unique<IndexBuffer>(indices, 6, GL_UNSIGNED_INT);
 
 		m_Shader = std::make_unique<Shader>("Main");
-		m_BoxSpr = std::make_unique<Sprite>("Sandbox/BackGround.png", *m_VAO, *m_IBO, *m_Shader);
-		m_BGSpr = std::make_unique<Sprite>("Sandbox/box.png", *m_VAO, *m_IBO, *m_Shader);
+
+		m_BoxSprite = std::make_unique<Sprite>("Sandbox/box.png", *m_VAO, *m_IBO, *m_Shader);
+		m_BGSprite = std::make_unique<Sprite>("Sandbox/BackGround.png", *m_VAO, *m_IBO, *m_Shader);
 	}
 
 	Sandbox::~Sandbox()
@@ -46,18 +47,16 @@ namespace tests {
 	{
 		glCall(glClearColor(0.2f, 0.6f, 1.0f, 1.0f));
 
-		{
-			m_BGSpr->Draw(renderer);
-		}
+		m_BoxSprite->Draw(renderer);
+		m_BoxSprite->SetTranslation(m_Translation);
 
-		{
-			m_BoxSpr->Draw(renderer);
-			m_BoxSpr->SetTranslation(m_Translation);
-		}
+		m_BGSprite->Draw(renderer);
+		m_BGSprite->SetTranslation(m_TranslationB);
 
 	}
 	void Sandbox::OnUIRender()
 	{
 		ImGui::SliderFloat2("Position",&m_Translation.x, -1.0f, 1.0f);
+		ImGui::SliderFloat2("Position B", &m_TranslationB.x, -1.0f, 1.0f);
 	}
 }
