@@ -32,7 +32,7 @@ namespace tests {
 		m_IBO = std::make_unique<IndexBuffer>(indices, 6, GL_UNSIGNED_INT);
 
 		m_Shader = std::make_unique<Shader>("Main");
-		m_Sprite = std::make_unique<Sprite>("ricardo.png", *m_VAO, *m_IBO, *m_Shader);
+		m_Sprite = std::make_unique<Sprite>("ricardo.png", GL_LINEAR, *m_Shader, *m_VAO, *m_IBO);
 	}
 
 	DrawTexture2D::~DrawTexture2D()

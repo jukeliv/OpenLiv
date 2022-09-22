@@ -5,15 +5,16 @@
 class Sprite
 {
 public:
-	Sprite(const std::string& texture, VertexArray& vao, IndexBuffer& ibo, Shader& shader);
+	Sprite(const std::string& texture, uint32_t param, Shader& shader, VertexArray& vao, IndexBuffer& ibo);
 	~Sprite();
 	void Draw(Renderer& renderer);
 	void SetTranslation(const glm::vec3& newPos);
-	void SetScale(const float& newPos);
+	void SetScale(const float& scale);
 private:
 	glm::vec3 m_Translation;
 	glm::mat4 m_Projection;
 	glm::mat4 m_View;
+	float m_Scale;
 	Shader m_Shader;
 	Texture m_Texture;
 	VertexArray m_VAO;

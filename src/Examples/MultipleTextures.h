@@ -25,7 +25,7 @@ namespace tests {
 		std::unique_ptr<IndexBuffer> m_IBO;
 		std::unique_ptr <Shader> m_Shader;
 
-		std::unique_ptr <Sprite> m_BoxSprite; 
+		std::unique_ptr <Sprite> m_SunSprite;
 		std::unique_ptr <Sprite> m_BGSprite;
 		std::unique_ptr <Sprite> m_SeaSprite;
 	};

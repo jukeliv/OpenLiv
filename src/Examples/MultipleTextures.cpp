@@ -33,12 +33,11 @@ namespace tests {
 
 		m_Shader = std::make_unique<Shader>("Main");
 
-		m_BoxSprite = std::make_unique<Sprite>("Examples/box.png", *m_VAO, *m_IBO, *m_Shader);
-		m_BoxSprite->SetScale(m_Scale);
-		m_BGSprite = std::make_unique<Sprite>("Examples/BackGround.png", *m_VAO, *m_IBO, *m_Shader);
-		m_BGSprite->SetScale(m_ScaleB);
-		m_SeaSprite = std::make_unique<Sprite>("Examples/Sea.png", *m_VAO, *m_IBO, *m_Shader);
-		m_SeaSprite->SetScale(m_ScaleC);
+		m_SunSprite = std::make_unique<Sprite>("Examples/Sun.png", GL_NEAREST, *m_Shader, *m_VAO, *m_IBO);
+		
+		m_BGSprite = std::make_unique<Sprite>("Examples/Background.png", GL_NEAREST, *m_Shader, *m_VAO, *m_IBO);
+
+		m_SeaSprite = std::make_unique<Sprite>("Examples/Sea.png", GL_NEAREST, *m_Shader, *m_VAO, *m_IBO);
 	}
 
 	MultipleTextures::~MultipleTextures()
@@ -51,9 +50,9 @@ namespace tests {
 	{
 		glCall(glClearColor(0.2f, 0.6f, 1.0f, 1.0f));
 
-		m_BoxSprite->Draw(renderer);
-		m_BoxSprite->SetTranslation(m_Translation);
-		m_BoxSprite->SetScale(m_Scale);
+		m_SunSprite->Draw(renderer);
+		m_SunSprite->SetTranslation(m_Translation);
+		m_SunSprite->SetScale(m_Scale);
 
 		m_BGSprite->Draw(renderer);
 		m_BGSprite->SetTranslation(m_TranslationB);
@@ -66,9 +65,10 @@ namespace tests {
 	}
 	void MultipleTextures::OnUIRender()
 	{
-		ImGui::SliderFloat2("Position",&m_Translation.x, -1.0f, 1.0f);
+		ImGui::SliderFloat2("Position", &m_Translation.x, -1.0f, 1.0f);
 		ImGui::SliderFloat2("Position B", &m_TranslationB.x, -1.0f, 1.0f);
 		ImGui::SliderFloat2("Position C", &m_TranslationC.x, -1.0f, 1.0f);
+
 		ImGui::SliderFloat("Scale", &m_Scale, 0.0f, 10.0f);
 		ImGui::SliderFloat("Scale B", &m_ScaleB, 0.0f, 10.0f);
 		ImGui::SliderFloat("Scale C", &m_ScaleC, 0.0f, 10.0f);
