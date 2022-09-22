@@ -9,7 +9,7 @@
   - copy "res" and paste it inside "bin/Release-Win32/"
   - ( Last step is only on Release mode, in Debug, only open the app shortcut inside "bin/Debug-Win32/" )
   
-## Comon errors
+# Comon errors
   ### Textures
     Your texture shows in screen, but it looks strange?
     The reason is that this engine, only suports square res images
