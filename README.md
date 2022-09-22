@@ -1,9 +1,9 @@
-![](https://github.com/susyboy23/OpenLiv/blob/main/res/textures/Logo.png)
 # Simple Non-Profit 2D Game Engine made with C++ and OpenGL
+![](https://github.com/susyboy23/OpenLiv/blob/main/res/textures/Logo.png)
 
 ![](https://github.com/susyboy23/OpenLiv/blob/main/res/textures/Examples/example_image_0.png)
   
-## Compiling - ( Only windows )
+# Compiling - ( Only windows )
   -- Little side note, it only compiles on 32 bits, not 64, for now --
   - Get inside the solution, build "OpenLiv"
   - copy "res" and paste it inside "bin/Release-Win32/"
@@ -22,19 +22,19 @@
     ( Also cuz it casued a lot of file reading errors )
 
 
-## Dependencies
+# Dependencies
   - [GLFW](https://github.com/taniwha/glfw/commits/master/include/GLFW/glfw3.h)
   - [GLEW](http://glew.sourceforge.net)
   - [GLM](https://github.com/g-truc/glm)
   - [ImGui](https://github.com/ocornut/imgui)
   - [stb_image](https://github.com/nothings/stb/blob/master/stb_image.h)
 
-## Plan
+# Plan
   - Simple escene Editor
   - Make this Multiplatform
   - Add 64 bits build
   - 3D Rendering in the future?
   
-## Thanks
+# Thanks
   - [TheCherno](https://twitter.com/thecherno) for your epic OpenGL Series :)
   - [Taniwha](https://github.com/taniwha) thanks for all the help in discord mate
