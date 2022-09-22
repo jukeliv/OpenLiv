@@ -32,7 +32,7 @@ int main(void)
 
     /* Create a windowed mode window and its OpenGL context */
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-    auto* window = glfwCreateWindow(960, 720, "OpenLiv", nullptr, nullptr);
+    auto* window = glfwCreateWindow(854, 480, "OpenLiv", nullptr, nullptr);
     if (!window)
     {
         glfwTerminate();
@@ -50,8 +50,6 @@ int main(void)
         fprintf(stderr, "Error: %s\n", glewGetErrorString(err));
         return -1;
     }
-
-    fprintf(stdout, "Status: Using GLEW %s\n", glewGetString(GLEW_VERSION));
 
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
@@ -73,6 +71,7 @@ int main(void)
         /* Loop until the user closes the window */
         while (!glfwWindowShouldClose(window))
         {
+
             /* Render here */
             renderer.Clear();
 
@@ -100,12 +99,23 @@ int main(void)
                 ImGui::End();
             }
 
-            //#ifndef NDEBUG
+            #ifndef NDEBUG
             ImGui::Begin("Debug");
             ImGui::Text("(%.1f FPS)", ImGui::GetIO().Framerate);
             ImGui::Text("Average % .3f ms", 1000.0f / ImGui::GetIO().Framerate);
+            ImGui::Text("OpenGL: %s", glGetString(GL_VERSION));
+            ImGui::Text("GL Impl: %s", glGetString(GL_VENDOR));
+            ImGui::Text("Graphics Card: %s", glGetString(GL_RENDERER));
+            ImGui::Text("GLEW: %s", glewGetString(GLEW_VERSION));
+            ImGui::Text("Shading Lenguaje: %s", glGetString(GL_SHADING_LANGUAGE_VERSION));
             ImGui::End();
-            //#endif
+            #elif OPENLIV_DEBUG_INFO
+            ImGui::Begin("Debug");
+            ImGui::Text("(%.1f FPS)", ImGui::GetIO().Framerate);
+            ImGui::Text("Graphics Card: %s", glGetString(GL_RENDERER));
+            ImGui::Text("GLEW: %s", glewGetString(GLEW_VERSION));
+            ImGui::End();
+            #endif
 
             ImGui::Render();
             ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());

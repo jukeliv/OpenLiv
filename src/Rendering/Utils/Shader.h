@@ -74,6 +74,11 @@ public:
 		glUniform1f(getUniformLocation(uniform), value);
 	}
 	template<>
+	void setUniform<glm::vec2>(const std::string& uniform, const glm::vec2& value)
+	{
+		glUniform2f(getUniformLocation(uniform), value.x, value.y);
+	}
+	template<>
 	void setUniform<glm::vec3>(const std::string& uniform, const glm::vec3& value)
 	{
 		glUniform3f(getUniformLocation(uniform), value.r, value.g, value.b);

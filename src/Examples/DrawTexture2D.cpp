@@ -33,6 +33,7 @@ namespace tests {
 
 		m_Shader = std::make_unique<Shader>("Main");
 		m_Sprite = std::make_unique<Sprite>("ricardo.png", GL_LINEAR, *m_Shader, *m_VAO, *m_IBO);
+		m_Sprite->SetScale(glm::vec2(5.0f));
 	}
 
 	DrawTexture2D::~DrawTexture2D()

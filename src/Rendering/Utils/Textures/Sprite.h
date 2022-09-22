@@ -9,12 +9,12 @@ public:
 	~Sprite();
 	void Draw(Renderer& renderer);
 	void SetTranslation(const glm::vec3& newPos);
-	void SetScale(const float& scale);
+	void SetScale(const glm::vec2& scale);
 private:
 	glm::vec3 m_Translation;
 	glm::mat4 m_Projection;
 	glm::mat4 m_View;
-	float m_Scale;
+	glm::vec2 m_Scale;
 	Shader m_Shader;
 	Texture m_Texture;
 	VertexArray m_VAO;

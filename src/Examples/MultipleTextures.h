@@ -17,9 +17,11 @@ namespace tests {
 		glm::vec3 m_Translation;
 		glm::vec3 m_TranslationB;
 		glm::vec3 m_TranslationC;
-		float m_Scale;
-		float m_ScaleB;
-		float m_ScaleC;
+
+		glm::vec2 m_Scale;
+		glm::vec2 m_ScaleB;
+		glm::vec2 m_ScaleC;
+
 		std::unique_ptr<VertexArray> m_VAO;
 		std::unique_ptr<VertexBuffer> m_VBO;
 		std::unique_ptr<IndexBuffer> m_IBO;

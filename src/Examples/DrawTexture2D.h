@@ -15,6 +15,7 @@ namespace tests {
 	private:
 		glm::vec3 m_Translation;
 		glm::vec3 m_TranslationB;
+
 		std::unique_ptr<VertexArray> m_VAO;
 		std::unique_ptr<VertexBuffer> m_VBO;
 		std::unique_ptr<IndexBuffer> m_IBO;

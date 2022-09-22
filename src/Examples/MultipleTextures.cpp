@@ -6,8 +6,8 @@
 
 namespace tests {
 	MultipleTextures::MultipleTextures()
-		: m_Translation(0.0f), m_TranslationB(0.0f), m_TranslationC(0.0f),
-		m_Scale(1.0f), m_ScaleB(1.0f), m_ScaleC(1.0f)
+		: m_Translation(0.254f, -0.108f, 0.0f), m_TranslationB(0.0f, 0.154f, 0.0f),
+		m_TranslationC(0.0f, 0.124f, 0.0f), m_Scale(1.0f), m_ScaleB(1.0f), m_ScaleC(1.0f)
 	{
 		const float vertexData[16] = {
 			-0.5f, -0.5f, 0.0f, 0.0f,
@@ -34,10 +34,13 @@ namespace tests {
 		m_Shader = std::make_unique<Shader>("Main");
 
 		m_SunSprite = std::make_unique<Sprite>("Examples/Sun.png", GL_NEAREST, *m_Shader, *m_VAO, *m_IBO);
-		
+		m_Scale = glm::vec2(10.0f, 10.0f);
+
 		m_BGSprite = std::make_unique<Sprite>("Examples/Background.png", GL_NEAREST, *m_Shader, *m_VAO, *m_IBO);
+		m_ScaleB = glm::vec2(7.0f, 7.0f);
 
 		m_SeaSprite = std::make_unique<Sprite>("Examples/Sea.png", GL_NEAREST, *m_Shader, *m_VAO, *m_IBO);
+		m_ScaleC = glm::vec2(16.0f, 16.0f);
 	}
 
 	MultipleTextures::~MultipleTextures()
@@ -65,12 +68,12 @@ namespace tests {
 	}
 	void MultipleTextures::OnUIRender()
 	{
-		ImGui::SliderFloat2("Position", &m_Translation.x, -1.0f, 1.0f);
-		ImGui::SliderFloat2("Position B", &m_TranslationB.x, -1.0f, 1.0f);
-		ImGui::SliderFloat2("Position C", &m_TranslationC.x, -1.0f, 1.0f);
+		ImGui::SliderFloat2("Sun Position", &m_Translation.x, -1.0f, 1.0f);
+		ImGui::SliderFloat2("Island Position", &m_TranslationB.x, -1.0f, 1.0f);
+		ImGui::SliderFloat2("Sea Position", &m_TranslationC.x, -1.0f, 1.0f);
 
-		ImGui::SliderFloat("Scale", &m_Scale, 0.0f, 10.0f);
-		ImGui::SliderFloat("Scale B", &m_ScaleB, 0.0f, 10.0f);
-		ImGui::SliderFloat("Scale C", &m_ScaleC, 0.0f, 10.0f);
+		ImGui::SliderFloat2("Sun Scale", &m_Scale.x, 0.0f, 10.0f);
+		ImGui::SliderFloat2("Island Scale", &m_ScaleB.x, 0.0f, 10.0f);
+		ImGui::SliderFloat2("Sea Scale", &m_ScaleC.x, 0.0f, 10.0f);
 	}
 }
