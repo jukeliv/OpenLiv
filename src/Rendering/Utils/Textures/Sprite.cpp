@@ -9,12 +9,17 @@ Sprite::Sprite(const std::string& texture, VertexArray& vao, IndexBuffer& ibo, S
 {
 	m_Shader.Bind();
 	m_Shader.setUniform<float>("uAlpha", 1.0f);
-	m_Texture.Bind();
 	m_Shader.setUniform<int>("uTexture", 0);
+}
+
+Sprite::~Sprite()
+{
+	m_Texture.UnBind();
 }
 
 void Sprite::Draw(Renderer& renderer)
 {
+	m_Texture.Bind();
 	glm::mat4 model = glm::translate(glm::mat4(1.0f), m_Translation);
 	glm::mat4 pvm = m_Projection * m_View * model;
 

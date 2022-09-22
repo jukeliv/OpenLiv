@@ -5,11 +5,11 @@
 #include <memory>
 
 namespace tests {
-	class DrawTexture2D : public Application
+	class Sandbox : public Application
 	{
 	public:
-		DrawTexture2D();
-		~DrawTexture2D();
+		Sandbox();
+		~Sandbox();
 		void OnRender(Renderer& renderer) override;
 		void OnUIRender() override;
 	private:
@@ -19,7 +19,8 @@ namespace tests {
 		std::unique_ptr<VertexBuffer> m_VBO;
 		std::unique_ptr<IndexBuffer> m_IBO;
 		std::unique_ptr <Shader> m_Shader;
-		std::unique_ptr<Sprite> m_Sprite;
-		std::unique_ptr<Sprite> m_SpriteB;
+
+		std::unique_ptr<Sprite> m_BoxSpr;
+		std::unique_ptr<Sprite> m_BGSpr;
 	};
 }

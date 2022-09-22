@@ -18,6 +18,7 @@
 
 #include <Examples/DrawTexture2D.h>
 #include <Examples/ClearColor.h>
+#include <Examples/Sandbox.h>
 
 #include <iostream>
 
@@ -65,6 +66,7 @@ int main(void)
 
     appMenu->RegisterApp<tests::ClearColor>("Clear Color");
     appMenu->RegisterApp<tests::DrawTexture2D>("Draw Texture");
+    appMenu->RegisterApp<tests::Sandbox>("Sandbox");
 
     {
         /* Loop until the user closes the window */
@@ -97,12 +99,12 @@ int main(void)
                 ImGui::End();
             }
 
-            #ifndef NDEBUG
+            //#ifndef NDEBUG
             ImGui::Begin("Debug");
             ImGui::Text("(%.1f FPS)", ImGui::GetIO().Framerate);
             ImGui::Text("Average % .3f ms", 1000.0f / ImGui::GetIO().Framerate);
             ImGui::End();
-            #endif
+            //#endif
 
             ImGui::Render();
             ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());

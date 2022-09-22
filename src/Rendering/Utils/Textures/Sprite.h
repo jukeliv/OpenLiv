@@ -6,6 +6,7 @@ class Sprite
 {
 public:
 	Sprite(const std::string& texture, VertexArray& vao, IndexBuffer& ibo, Shader& shader);
+	~Sprite();
 	void Draw(Renderer& renderer);
 	void SetTranslation(glm::vec3 newPos);
 private:

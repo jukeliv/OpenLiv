@@ -1,4 +1,4 @@
-#include "DrawTexture2D.h"
+#include "Sandbox.h"
 
 #include <glm/glm.hpp>
 
@@ -6,8 +6,8 @@
 #include "Rendering/Buffers/VertexBufferLayout.h"
 
 namespace tests {
-	DrawTexture2D::DrawTexture2D()
-		: m_Translation(0.0f), m_TranslationB(1.0f, 0.0f, 0.0f)
+	Sandbox::Sandbox()
+		: m_Translation(0.0f)
 	{
 		const float vertexData[16] = {
 			-0.5f, -0.5f, 0.0f, 0.0f,
@@ -32,34 +32,32 @@ namespace tests {
 		m_IBO = std::make_unique<IndexBuffer>(indices, 6, GL_UNSIGNED_INT);
 
 		m_Shader = std::make_unique<Shader>("Main");
-		m_Sprite = std::make_unique<Sprite>("ricardo.png", *m_VAO, *m_IBO, *m_Shader);
-		m_SpriteB = std::make_unique<Sprite>("ricardo.png", *m_VAO, *m_IBO, *m_Shader);
+		m_BoxSpr = std::make_unique<Sprite>("Sandbox/BackGround.png", *m_VAO, *m_IBO, *m_Shader);
+		m_BGSpr = std::make_unique<Sprite>("Sandbox/box.png", *m_VAO, *m_IBO, *m_Shader);
 	}
 
-	DrawTexture2D::~DrawTexture2D()
+	Sandbox::~Sandbox()
 	{
 		m_IBO->UnBind();
 		m_VAO->UnBind();
 	}
 
-	void DrawTexture2D::OnRender(Renderer& renderer)
+	void Sandbox::OnRender(Renderer& renderer)
 	{
-		glCall(glClearColor(0.0f, 0.0f, 0.0f, 1.0f));
+		glCall(glClearColor(0.2f, 0.6f, 1.0f, 1.0f));
 
 		{
-			m_Sprite->Draw(renderer);
-			m_Sprite->SetTranslation(m_Translation);
+			m_BGSpr->Draw(renderer);
 		}
 
 		{
-			m_SpriteB->Draw(renderer);
-			m_SpriteB->SetTranslation(m_TranslationB);
+			m_BoxSpr->Draw(renderer);
+			m_BoxSpr->SetTranslation(m_Translation);
 		}
 
 	}
-	void DrawTexture2D::OnUIRender()
+	void Sandbox::OnUIRender()
 	{
 		ImGui::SliderFloat2("Position",&m_Translation.x, -1.0f, 1.0f);
-		ImGui::SliderFloat2("Position B", &m_TranslationB.x, -1.0f, 1.0f);
 	}
 }

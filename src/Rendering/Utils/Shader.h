@@ -44,7 +44,7 @@ public:
 	}
 	~Shader()
 	{
-		glCall(glDeleteProgram(m_ProgramID));
+			glCall(glDeleteProgram(m_ProgramID));
 	}
 
 	void Bind() const
