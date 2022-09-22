@@ -1,7 +1,7 @@
-![](https://github.com/susyboy23/OpenLiv/blob/main/res/textures/example_0.png)
+![](https://github.com/susyboy23/OpenLiv/blob/main/res/textures/Logo.png)
 # Simple Non-Profit 2D Game Engine made with C++ and OpenGL
 
-![](https://github.com/susyboy23/OpenLiv/blob/main/res/textures/ricardo.png)
+![](https://github.com/susyboy23/OpenLiv/blob/main/res/textures/Examples/example_image_0.png)
   
 ## Compiling - ( Only windows )
   -- Little side note, it only compiles on 32 bits, not 64, for now --
