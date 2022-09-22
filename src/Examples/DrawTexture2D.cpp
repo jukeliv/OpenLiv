@@ -32,7 +32,7 @@ namespace tests {
 		m_IBO = std::make_unique<IndexBuffer>(indices, 6, GL_UNSIGNED_INT);
 
 		m_Shader = std::make_unique<Shader>("Main");
-		m_Sprite = std::make_unique<Sprite>("ricardo.png", GL_LINEAR, *m_Shader, *m_VAO, *m_IBO);
+		m_Sprite = std::make_unique<Sprite>("Logo.png", GL_LINEAR, *m_Shader, *m_VAO, *m_IBO);
 		m_Sprite->SetScale(glm::vec2(5.0f));
 	}
 
@@ -44,7 +44,7 @@ namespace tests {
 
 	void DrawTexture2D::OnRender(Renderer& renderer)
 	{
-		glCall(glClearColor(0.0f, 0.0f, 0.0f, 1.0f));
+		glCall(glClearColor(1.0f, 1.0f, 1.0f, 1.0f));
 
 		m_Sprite->Draw(renderer);
 		m_Sprite->SetTranslation(m_Translation);
