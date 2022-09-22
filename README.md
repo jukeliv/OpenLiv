@@ -10,12 +10,12 @@
   - ( Last step is only on Release mode, in Debug, only open the app shortcut inside "bin/Debug-Win32/" )
   
 ## Comon errors
-  ## Textures
+  ### Textures
     Your texture shows in screen, but it looks strange?
     The reason is that this engine, only suports square res images
     i.e 24x24, 50x50, 124x123
     and it will deform everything that isnt in a square res
-  ## Shaders
+  ### Shaders
     So you are trying to compile a shader but it gives errors?
     maybe its cuz you have a "#version 330 core" or what ever version at the start, remove it
     all that is handled by Shaders.h so you dont have to struggle with it
