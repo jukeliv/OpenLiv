@@ -1,6 +1,6 @@
 #pragma once
-#include <Rendering/Utils/Shader.h>
-#include <Rendering/Utils/Textures/Texture.h>
+#include <Rendering/Shader.h>
+#include <Engine/Utils/Textures/Texture.h>
 
 class Sprite
 {

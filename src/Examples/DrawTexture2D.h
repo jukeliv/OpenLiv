@@ -1,6 +1,6 @@
 #pragma once
-#include "Examples/ExampleTemplate.h"
-#include "Rendering/Utils/Textures/Sprite.h"
+#include <Examples/ExampleTemplate.h>
+#include <Engine/Sprite.h>
 
 #include <memory>
 

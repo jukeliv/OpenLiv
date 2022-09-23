@@ -94,7 +94,7 @@
   <ItemGroup>
     <ClCompile Include="src\Examples\MultipleTextures.cpp" />
     <ClCompile Include="src\MainApplication.cpp" />
-    <ClCompile Include="src\Rendering\Utils\Textures\Sprite.cpp" />
+    <ClCompile Include="src\Engine\Sprite.cpp" />
     <ClCompile Include="src\Examples\DrawTexture2D.cpp" />
     <ClCompile Include="src\Examples\ExampleTemplate.cpp" />
     <ClCompile Include="src\Examples\ClearColor.cpp" />
@@ -256,8 +256,8 @@
   <ItemGroup>
     <ClInclude Include="src\Engine\Application.h" />
     <ClInclude Include="src\Examples\MultipleTextures.h" />
-    <ClInclude Include="src\MainEngine.h" />
-    <ClInclude Include="src\Rendering\Utils\Textures\Sprite.h" />
+    <ClInclude Include="src\MainApplication.h" />
+    <ClInclude Include="src\Engine\Sprite.h" />
     <ClInclude Include="src\Examples\DrawTexture2D.h" />
     <ClInclude Include="src\Examples\ClearColor.h" />
     <ClInclude Include="include\GLErrorManager.h" />
@@ -561,13 +561,13 @@
     <ClInclude Include="include\stb_image\stb_image.h" />
     <ClInclude Include="src\Rendering\Buffers\IndexBuffer.h" />
     <ClInclude Include="src\Rendering\Renderer.h" />
-    <ClInclude Include="src\Rendering\Utils\Shader.h" />
+    <ClInclude Include="src\Rendering\Shader.h" />
     <ClInclude Include="src\Rendering\Buffers\VertexBuffer.h" />
     <ClInclude Include="src\Rendering\Buffers\VertexArray.h" />
     <ClInclude Include="src\Rendering\Buffers\VertexBufferLayout.h" />
-    <ClInclude Include="src\Rendering\Utils\Textures\Texture.h" />
+    <ClInclude Include="src\Engine\Utils\Textures\Texture.h" />
     <ClInclude Include="src\Examples\ExampleTemplate.h" />
-    <ClInclude Include="src\Rendering\Utils\Textures\TextureAtlas.h" />
+    <ClInclude Include="src\Engine\Utils\Textures\TextureAtlas.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="res\shaders\README.txt" />

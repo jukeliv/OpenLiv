@@ -3,7 +3,7 @@
 #include <GL/glew.h>
 #include "Buffers/VertexArray.h"
 #include "Buffers/IndexBuffer.h"
-#include "Utils/Shader.h"
+#include <Rendering/Shader.h>
 
 //Static renderer cuz i dont want to fucking add a "Renderer" everytime i need to draw something
 class Renderer {
