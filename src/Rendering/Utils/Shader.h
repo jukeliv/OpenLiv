@@ -104,7 +104,7 @@ private:
 
 	mutable std::unordered_map<std::string, uint32_t> m_UniformLocationCage;
 
-	static std::string getShadersPath() { return "res/shaders/"; }
+	[[nodiscard]] static std::string getShadersPath() { return "res/shaders/"; }
 
 	/*thanks a lot to `HomelikeBrick42` from TheChernos Discord
 	* for helping me with the error i was having with this function */

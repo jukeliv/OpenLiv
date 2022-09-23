@@ -4,10 +4,10 @@
 #include "Rendering/Buffers/VertexBuffer.h"
 #include "Rendering/Buffers/VertexBufferLayout.h"
 
-namespace tests {
+namespace examples {
 	MultipleTextures::MultipleTextures()
-		: m_Translation(0.254f, -0.108f, 0.0f), m_TranslationB(0.0f, 0.154f, 0.0f),
-		m_TranslationC(0.0f, 0.124f, 0.0f), m_Scale(1.0f), m_ScaleB(1.0f), m_ScaleC(1.0f)
+		: m_Translation(-0.046f, -0.116f, 0.0f), m_TranslationB(-0.515f, 0.154f, 0.0f), m_TranslationC(0.0f, 0.147f, 0.0f),
+		m_Scale(glm::vec2(17.692f, 17.692f)), m_ScaleB(glm::vec2(7.0f, 7.0f)), m_ScaleC(glm::vec2(16.0f, 16.0f))
 	{
 		const float vertexData[16] = {
 			-0.5f, -0.5f, 0.0f, 0.0f,
@@ -33,35 +33,33 @@ namespace tests {
 
 		m_Shader = std::make_unique<Shader>("Main");
 
-		m_SunSprite = std::make_unique<Sprite>("Examples/Sun.png", GL_NEAREST, *m_Shader, *m_VAO, *m_IBO);
-		m_Scale = glm::vec2(10.0f, 10.0f);
+		m_SunSprite = std::make_unique<Sprite>("Examples/Sun.png", GL_NEAREST, *m_Shader, *m_VAO, *m_IBO, glm::vec2(8.0f, 4.5f));
 
-		m_BGSprite = std::make_unique<Sprite>("Examples/Background.png", GL_NEAREST, *m_Shader, *m_VAO, *m_IBO);
-		m_ScaleB = glm::vec2(7.0f, 7.0f);
+		m_IslandSprite = std::make_unique<Sprite>("Examples/Island.png", GL_NEAREST, *m_Shader, *m_VAO, *m_IBO, glm::vec2(8.0f, 4.5f));
 
-		m_SeaSprite = std::make_unique<Sprite>("Examples/Sea.png", GL_NEAREST, *m_Shader, *m_VAO, *m_IBO);
-		m_ScaleC = glm::vec2(16.0f, 16.0f);
+		m_SeaSprite = std::make_unique<Sprite>("Examples/Sea.png", GL_NEAREST, *m_Shader, *m_VAO, *m_IBO, glm::vec2(8.0f, 4.5f));
 	}
 
 	MultipleTextures::~MultipleTextures()
 	{
+		m_VBO->UnBind();
 		m_IBO->UnBind();
 		m_VAO->UnBind();
 	}
 
-	void MultipleTextures::OnRender(Renderer& renderer)
+	void MultipleTextures::OnRender()
 	{
 		glCall(glClearColor(0.2f, 0.6f, 1.0f, 1.0f));
 
-		m_SunSprite->Draw(renderer);
+		m_SunSprite->Draw();
 		m_SunSprite->SetTranslation(m_Translation);
 		m_SunSprite->SetScale(m_Scale);
 
-		m_BGSprite->Draw(renderer);
-		m_BGSprite->SetTranslation(m_TranslationB);
-		m_BGSprite->SetScale(m_ScaleB);
-
-		m_SeaSprite->Draw(renderer);
+		m_IslandSprite->Draw();
+		m_IslandSprite->SetTranslation(m_TranslationB);
+		m_IslandSprite->SetScale(m_ScaleB);
+		
+		m_SeaSprite->Draw();
 		m_SeaSprite->SetTranslation(m_TranslationC);
 		m_SeaSprite->SetScale(m_ScaleC);
 
@@ -69,11 +67,12 @@ namespace tests {
 	void MultipleTextures::OnUIRender()
 	{
 		ImGui::SliderFloat2("Sun Position", &m_Translation.x, -1.0f, 1.0f);
-		ImGui::SliderFloat2("Island Position", &m_TranslationB.x, -1.0f, 1.0f);
-		ImGui::SliderFloat2("Sea Position", &m_TranslationC.x, -1.0f, 1.0f);
+		ImGui::SliderFloat2("Sun Scale", &m_Scale.x, 0.0f, 100.0f);
 
-		ImGui::SliderFloat2("Sun Scale", &m_Scale.x, 0.0f, 10.0f);
-		ImGui::SliderFloat2("Island Scale", &m_ScaleB.x, 0.0f, 10.0f);
-		ImGui::SliderFloat2("Sea Scale", &m_ScaleC.x, 0.0f, 10.0f);
+		ImGui::SliderFloat2("Island Position", &m_TranslationB.x, -1.0f, 1.0f);
+		ImGui::SliderFloat2("Island Scale", &m_ScaleB.x, 0.0f, 100.0f);
+
+		ImGui::SliderFloat2("Sea Position", &m_TranslationC.x, -1.0f, 1.0f);
+		ImGui::SliderFloat2("Sea Scale", &m_ScaleC.x, 0.0f, 100.0f);
 	}
 }

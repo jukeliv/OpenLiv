@@ -5,7 +5,7 @@
 #include "Rendering/Buffers/VertexBuffer.h"
 #include "Rendering/Buffers/VertexBufferLayout.h"
 
-namespace tests {
+namespace examples {
 	DrawTexture2D::DrawTexture2D()
 		: m_Translation(0.0f)
 	{
@@ -32,21 +32,22 @@ namespace tests {
 		m_IBO = std::make_unique<IndexBuffer>(indices, 6, GL_UNSIGNED_INT);
 
 		m_Shader = std::make_unique<Shader>("Main");
-		m_Sprite = std::make_unique<Sprite>("Logo.png", GL_LINEAR, *m_Shader, *m_VAO, *m_IBO);
+		m_Sprite = std::make_unique<Sprite>("Logo.png", GL_LINEAR, *m_Shader, *m_VAO, *m_IBO, glm::vec2(8.0f, 4.5f));
 		m_Sprite->SetScale(glm::vec2(5.0f));
 	}
 
 	DrawTexture2D::~DrawTexture2D()
 	{
+		m_VBO->UnBind();
 		m_IBO->UnBind();
 		m_VAO->UnBind();
 	}
 
-	void DrawTexture2D::OnRender(Renderer& renderer)
+	void DrawTexture2D::OnRender()
 	{
 		glCall(glClearColor(1.0f, 1.0f, 1.0f, 1.0f));
 
-		m_Sprite->Draw(renderer);
+		m_Sprite->Draw();
 		m_Sprite->SetTranslation(m_Translation);
 
 	}

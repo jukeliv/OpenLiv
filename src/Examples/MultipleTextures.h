@@ -4,13 +4,13 @@
 
 #include <memory>
 
-namespace tests {
+namespace examples {
 	class MultipleTextures : public Application
 	{
 	public:
 		MultipleTextures();
 		~MultipleTextures();
-		void OnRender(Renderer& renderer) override;
+		void OnRender() override;
 		void OnUIRender() override;
 
 	private:
@@ -28,7 +28,7 @@ namespace tests {
 		std::unique_ptr <Shader> m_Shader;
 
 		std::unique_ptr <Sprite> m_SunSprite;
-		std::unique_ptr <Sprite> m_BGSprite;
+		std::unique_ptr <Sprite> m_IslandSprite;
 		std::unique_ptr <Sprite> m_SeaSprite;
 	};
 }

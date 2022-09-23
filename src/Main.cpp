@@ -58,14 +58,13 @@ int main(void)
     ImGui_ImplGlfw_InitForOpenGL(window, true);
     ImGui_ImplOpenGL3_Init((char*)glGetString(GL_NUM_SHADING_LANGUAGE_VERSIONS));
 
-    Renderer renderer;
-    tests::Application* currentApp = nullptr;
-    tests::AppsMenu* appMenu = new tests::AppsMenu(currentApp);
+    examples::Application* currentApp = nullptr;
+    examples::AppsMenu* appMenu = new examples::AppsMenu(currentApp);
     currentApp = appMenu;
 
-    appMenu->RegisterApp<tests::ClearColor>("Clear Color");
-    appMenu->RegisterApp<tests::DrawTexture2D>("Draw Texture");
-    appMenu->RegisterApp<tests::MultipleTextures>("Multiple Textures");
+    appMenu->RegisterApp<examples::ClearColor>("Clear Color");
+    appMenu->RegisterApp<examples::DrawTexture2D>("Draw Texture");
+    appMenu->RegisterApp<examples::MultipleTextures>("Multiple Textures");
 
     {
         /* Loop until the user closes the window */
@@ -73,7 +72,7 @@ int main(void)
         {
 
             /* Render here */
-            renderer.Clear();
+            Renderer::Clear();
 
             ImGui_ImplOpenGL3_NewFrame();
             ImGui_ImplGlfw_NewFrame();
@@ -81,9 +80,9 @@ int main(void)
             
             if (currentApp)
             {
-                currentApp->OnUpdate(0.0f);
+                currentApp->OnUpdate(1.0f / ImGui::GetIO().Framerate);
 
-                currentApp->OnRender(renderer);
+                currentApp->OnRender();
 
                 ImGui::Begin("Test");
 

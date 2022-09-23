@@ -5,13 +5,13 @@
 #include <functional>
 #include <vector>
 
-namespace tests {
+namespace examples {
 	class Application {
 	public:
 		Application() {}
 		virtual ~Application() {}
 		virtual void OnUpdate(float delta) {}
-		virtual void OnRender(Renderer& renderer) {}
+		virtual void OnRender() {}
 		virtual void OnUIRender() {}
 	};
 

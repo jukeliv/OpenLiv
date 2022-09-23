@@ -1,6 +1,6 @@
 #include "ClearColor.h"
 
-namespace tests {
+namespace examples {
 	ClearColor::ClearColor()
 		: m_ClearColor{1.0f, 1.0f, 1.0f}
 	{
@@ -9,7 +9,7 @@ namespace tests {
 	{
 	}
 
-	void ClearColor::OnRender(Renderer& renderer)
+	void ClearColor::OnRender()
 	{
 		glCall(glClearColor(m_ClearColor[0], m_ClearColor[1], m_ClearColor[2], 1.0f));
 		/*Clear is handled by Renderer.h

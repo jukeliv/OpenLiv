@@ -4,13 +4,13 @@
 
 #include <memory>
 
-namespace tests {
+namespace examples {
 	class DrawTexture2D : public Application
 	{
 	public:
 		DrawTexture2D();
 		~DrawTexture2D();
-		void OnRender(Renderer& renderer) override;
+		void OnRender() override;
 		void OnUIRender() override;
 	private:
 		glm::vec3 m_Translation;

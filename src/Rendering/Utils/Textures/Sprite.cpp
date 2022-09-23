@@ -2,8 +2,8 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
-Sprite::Sprite(const std::string& texture, uint32_t param, Shader& shader, VertexArray& vao, IndexBuffer& ibo)
-	:m_Texture(texture, param), m_Translation(0.0f), m_Projection(glm::ortho(-8.0f, 8.0f, -4.5f, 4.5f, -0.1f, 1.0f)),
+Sprite::Sprite(const std::string& texture, uint32_t param, Shader& shader, VertexArray& vao, IndexBuffer& ibo, const glm::vec2& aspectRation = glm::vec2(8.0f, 4.5f))
+	:m_Texture(texture, param), m_Translation(0.0f), m_Projection(glm::ortho(-aspectRation.x, aspectRation.x, -aspectRation.y, aspectRation.y, -0.1f, 1.0f)),
 	m_Shader(shader), m_VAO(vao), m_IBO(ibo), m_Scale(1.0f), m_View(glm::translate(glm::mat4(1.0f), m_Translation))
 {
 	m_Shader.Bind();
@@ -21,7 +21,7 @@ Sprite::~Sprite()
 	m_Texture.UnBind();
 }
 
-void Sprite::Draw(Renderer& renderer)
+void Sprite::Draw()
 {
 	m_Texture.Bind();
 
@@ -33,7 +33,7 @@ void Sprite::Draw(Renderer& renderer)
 		m_Shader.setUniform<glm::vec2>("uScale", m_Scale);
 		m_Shader.setUniform<glm::mat4>("uPVM", pvm);
 
-		renderer.RenderScene(m_VAO, m_IBO, m_Shader);
+		Renderer::RenderScene(m_VAO, m_IBO, m_Shader);
 	}
 }
 

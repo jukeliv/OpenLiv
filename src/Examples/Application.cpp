@@ -1,6 +1,6 @@
 #include "Examples/Application.h"
 
-namespace tests {
+namespace examples {
 	AppsMenu::AppsMenu(Application*& appPointer)
 		: m_CurrentApp(appPointer)
 	{

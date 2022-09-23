@@ -7,6 +7,6 @@ uniform vec2 uScale = vec2(1.0f, 1.0f);
 
 void main()
 {
-	gl_Position = uPVM *position * vec4(uScale.x, uScale.y, 1.0f, 1.0f);
+	gl_Position = uPVM * position * vec4(uScale, 1.0f, 1.0f);
 	v_TexCoord = texCoord;
 }

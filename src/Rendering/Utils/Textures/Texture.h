@@ -43,7 +43,7 @@ public:
 		glCall(glDeleteTextures(1, &m_RendererID));
 	}
 
-	void Bind(uint32_t slot = 0) const	
+	void Bind(uint8_t slot = 0) const	
 	{
 		glCall(glActiveTexture(GL_TEXTURE0+slot));
 		glCall(glBindTexture(GL_TEXTURE_2D, m_RendererID));
@@ -58,6 +58,6 @@ public:
 	inline int GetHeight() const { return m_Height; }
 private:
 	uint32_t m_RendererID;
-	unsigned char* m_LocalBuffer;
+	uint8_t* m_LocalBuffer;
 	int m_Width, m_Height, m_BPP;
 };
