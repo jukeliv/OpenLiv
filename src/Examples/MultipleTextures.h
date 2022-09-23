@@ -1,11 +1,11 @@
 #pragma once
-#include "Examples/Application.h"
+#include "Examples/ExampleTemplate.h"
 #include "Rendering/Utils/Textures/Sprite.h"
 
 #include <memory>
 
 namespace examples {
-	class MultipleTextures : public Application
+	class MultipleTextures : public ExampleTemplate
 	{
 	public:
 		MultipleTextures();

@@ -1,11 +1,11 @@
 #pragma once
-#include "Examples/Application.h"
+#include "Examples/ExampleTemplate.h"
 #include "Rendering/Utils/Textures/Sprite.h"
 
 #include <memory>
 
 namespace examples {
-	class DrawTexture2D : public Application
+	class DrawTexture2D : public ExampleTemplate
 	{
 	public:
 		DrawTexture2D();

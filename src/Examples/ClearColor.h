@@ -1,8 +1,8 @@
 #pragma once
-#include "Examples/Application.h"
+#include "Examples/ExampleTemplate.h"
 
 namespace examples {
-	class ClearColor : public Application
+	class ClearColor : public ExampleTemplate
 	{
 	public:
 		ClearColor();

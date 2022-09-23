@@ -6,19 +6,19 @@
 #include <vector>
 
 namespace examples {
-	class Application {
+	class ExampleTemplate {
 	public:
-		Application() {}
-		virtual ~Application() {}
+		ExampleTemplate() {}
+		virtual ~ExampleTemplate() {}
 		virtual void OnUpdate(float delta) {}
 		virtual void OnRender() {}
 		virtual void OnUIRender() {}
 	};
 
-	class AppsMenu : public Application
+	class AppsMenu : public ExampleTemplate
 	{
 	public:
-		AppsMenu(Application*& appPointer);
+		AppsMenu(ExampleTemplate*& appPointer);
 		~AppsMenu();
 
 		void OnUIRender() override;
@@ -30,7 +30,7 @@ namespace examples {
 			std::cout << "Application " << name << " Succefully registered" << std::endl;
 		}
 	private:
-		Application*& m_CurrentApp;
-		std::vector<std::pair<std::string, std::function<Application* ()>>> m_Applications;
+		ExampleTemplate*& m_CurrentApp;
+		std::vector<std::pair<std::string, std::function<ExampleTemplate* ()>>> m_Applications;
 	};
 }

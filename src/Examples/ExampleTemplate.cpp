@@ -1,7 +1,7 @@
-#include "Examples/Application.h"
+#include "Examples/ExampleTemplate.h"
 
 namespace examples {
-	AppsMenu::AppsMenu(Application*& appPointer)
+	AppsMenu::AppsMenu(ExampleTemplate*& appPointer)
 		: m_CurrentApp(appPointer)
 	{
 
