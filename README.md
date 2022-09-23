@@ -1,4 +1,5 @@
 # Simple Non-Profit 2D Game Engine made with C++ and OpenGL
+![](https://github.com/susyboy23/OpenLiv/blob/main/screenshots/example_image_1.png)
 ![](https://github.com/susyboy23/OpenLiv/blob/main/screenshots/example_image_0.png)
 
 # Plan
