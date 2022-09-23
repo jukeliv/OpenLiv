@@ -9,7 +9,7 @@ int main(void)
     MainApplication app;
     app.Init(854, 480, "TITLE");
 
-    app.currentApp = engine.appMenu;
+    app.currentApp = app.appMenu;
 
     app.appMenu->RegisterApp<examples::ClearColor>("Clear Color");
     app.appMenu->RegisterApp<examples::DrawTexture2D>("Draw Texture");
